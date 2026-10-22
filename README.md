@@ -6,6 +6,7 @@ Motion kits studied from websites I love and rebuilt as drop-in HTML, CSS and JS
 | Kit | Source | Components | Library page |
 |---|---|---|---|
 | [FC Hyena](kits/fc-hyena/) | fchyena.nl | 10 | [FC Hyena Motion](https://claude.ai/artifact/PbgDp2jeUoMUUzSyhu5oT9) |
+| [Starface](kits/starface/) | starface.world | 10 | [Starface Motion](https://claude.ai/artifact/7YTgq1X8VhANRXSa18Jg2X) |
 
 ## Layout
 ```

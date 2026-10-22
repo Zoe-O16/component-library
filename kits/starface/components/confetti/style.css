@@ -1,0 +1,4 @@
+.sf-pill{font:900 1.1rem/1 var(--display);text-transform:lowercase;padding:12px 22px;border-radius:var(--radius-btn);border:0;cursor:pointer;background:var(--sf);color:var(--on-sf)}
+.sf-confetti-demo{position:relative;display:grid;place-items:center;height:280px}
+.sf-confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sf-pop{position:relative;z-index:1}

@@ -13,7 +13,7 @@ Source: [fchyena.nl](https://fchyena.nl/), a Framer site. Studied 2026-10-22 fro
 
 ## Mobile
 - Breakpoints from the site: phone under 810 px, tablet 810 to 1199, desktop 1200 to 1499, large from 1500 px (`--bp-*` in [tokens.css](tokens.css)).
-- Most motion is the same on phones. What changes: the menu blocks swing in faster (0.8 s each) at full width, the hero headline drops to 85 px, the FAQ stacks, and hover effects (sticker grow, ticket tilt, corner fold) don't fire on touch. Smooth scroll leaves touch scrolling native.
+- Most motion is the same on phones. What changes: the menu blocks swing in faster (0.8 s each) at full width, the hero headline drops to 85 px, the FAQ stacks, and on the site hover effects (sticker grow, ticket tilt, corner fold) don't fire on touch (the kit keeps plain CSS `:hover`). Smooth scroll leaves touch scrolling native.
 - Every component README has a **Mobile** line, and the overview page has a Desktop / Mobile switch that shows each demo at 390 px.
 
 ## Components

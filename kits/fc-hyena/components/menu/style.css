@@ -10,6 +10,5 @@
   transition:transform var(--d,1.3s) var(--ease-out) calc(var(--i)*200ms),visibility 0s}
 .hy-block:nth-child(1){--d:2s}.hy-block:nth-child(2){--d:1.7s}
 @media (max-width:809.98px){.hy-menu{max-width:none;padding:20px 0}.hy-block{--d:.8s!important}}
-.hy-menu.open .hy-block:focus-visible{transform:rotate(-6deg);transition-delay:0s;transition-duration:.4s}
-@media (hover:hover){.hy-menu.open .hy-block:hover{transform:rotate(-6deg);transition-delay:0s;transition-duration:.4s}}
+.hy-menu.open .hy-block:hover,.hy-menu.open .hy-block:focus-visible{transform:rotate(-6deg);transition-delay:0s;transition-duration:.4s}
 @media (prefers-reduced-motion:reduce){.hy-block,.hy-menu.open .hy-block{transition:none}}

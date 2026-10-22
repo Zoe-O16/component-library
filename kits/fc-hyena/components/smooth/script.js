@@ -1,7 +1,7 @@
 (root=>{
 root.querySelectorAll('.hy-smooth').forEach(box=>{
-  // like the site's Lenis setup (syncTouch off): touch screens scroll natively
-  if(matchMedia('(hover: none)').matches){box.classList.add('native');return}
+  // like the site's Lenis setup (syncTouch off): touch scrolls natively, wheels get the smoothing
+  box.addEventListener('touchstart',()=>box.classList.add('native'),{passive:true,once:true});
   const inner=box.firstElementChild, lerp=parseFloat(box.dataset.lerp)||.1;
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let target=0,cur=0,last=performance.now(),run=false;

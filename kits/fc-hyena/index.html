@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hyena Motion Kit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one long index of components; each = name + source tag + demo stage + code. Base is FC Hyena's black/white with one random brand colour (--hy) per visit. */
+:root{
+  --bg:#ffffff; --fg:#000000; --surface:#f1f1f1; --muted:#666666; --line:#000000; --code:#000000; --codefg:#f1f1f1;
+  --hy:#A0DC00; --on-hy:#000000;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Instrument Sans",system-ui,sans-serif; --mono:"DM Mono",ui-monospace,Menlo,monospace;
+  --ease-hy:cubic-bezier(.44,0,0,1); --ease-out:cubic-bezier(.5,0,0,1); --spring:cubic-bezier(.34,1.56,.64,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--fg:#ffffff;--surface:#161616;--muted:#999999;--line:#ffffff;--code:#161616;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000000;--fg:#ffffff;--surface:#161616;--muted:#999999;--line:#ffffff;--code:#161616;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.55 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1100px;margin:0 auto;padding-block:32px 64px}
+h1,h2{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.9;margin:0;text-wrap:balance}
+h1{font-size:clamp(3.4rem,11vw,7.5rem)}
+h1 span{background:var(--hy);color:var(--on-hy);padding:0 .08em}
+.intro{max-width:64ch;margin:16px 0 0}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.toc a{font:500 .8rem var(--mono);text-decoration:none;border:2px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--fg)}
+.toc a:hover{background:var(--hy);color:var(--on-hy);border-color:var(--hy)}
+.comp{border-top:2px solid var(--line);padding-block:40px;display:grid;gap:14px}
+.comp-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.comp h2{font-size:clamp(2.2rem,6vw,3.6rem)}
+.status{font:500 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 9px;border:2px solid currentColor}
+.status.code{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.status.part{color:var(--muted)}
+.where{font:400 .85rem var(--mono);color:var(--muted);margin:0;max-width:80ch}
+.comp p.desc{margin:0;max-width:64ch}
+.stage{background:var(--surface);padding:clamp(20px,4vw,40px);min-width:0;overflow:hidden;position:relative}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 .85rem var(--body);background:transparent;color:var(--fg);border:2px solid var(--line);border-radius:999px;padding:5px 14px;cursor:pointer}
+.btn:hover{background:var(--hy);color:var(--on-hy);border-color:var(--hy)}
+details.src summary{cursor:pointer;font:500 .8rem var(--mono);text-transform:uppercase;letter-spacing:.1em}
+pre{background:var(--code);color:var(--codefg);padding:16px;overflow-x:auto;font:400 .78rem/1.5 var(--mono);margin:10px 0 0;max-width:100%}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--hy);outline-offset:3px}
+</style>
+<style id="kit-css"></style>
+
+<div class="wrap">
+  <span class="where"><a href="../../" style="color:inherit">← All kits</a> · fchyena.nl · motion study</span>
+  <h1>Hyena <span>Motion</span> Kit</h1>
+  <p class="intro">These are the animations on fchyena.nl, taken from the site's own Framer code and rebuilt from scratch in plain HTML, CSS and JS with no libraries. The durations, easing curves, delays and angles are the real values. <b>From code</b> means the effect and its numbers come straight from the site. <b>Partly guessed</b> means the effect is there, but some of its timing wasn't in the code. Reload the page and the highlight colour changes, just like on FC Hyena.</p>
+  <nav class="toc" id="toc" aria-label="Components"></nav>
+  <div id="list"></div>
+</div>
+
+<script>
+const C=[];
+C.push({id:"colour",name:"Random colour per visit",status:"code",
+where:"Allinone2 override: every visit picks one of 5 colours (lime #A0DC00, orange #FFA000, cyan #00BEE6, red #DC0000, yellow #FFE100) and applies it to text, frames, borders and icons",
+desc:"FC Hyena's signature move: the whole site gets a new accent colour each time you open it. It's one CSS variable set when the page loads, and every accented element reads that variable. Text on red gets switched to white so it stays readable.",
+html:`<div class="hy-swatches">
+  <div class="hy-swatch">Film kijken</div><div class="hy-swatch hy-swatch--line">Terras</div><div class="hy-swatch hy-swatch--text">Natuurwijnen</div>
+</div>`,
+css:`/* put on :root once */
+:root{--hy:#A0DC00;--on-hy:#000}
+.hy-swatches{display:flex;flex-wrap:wrap;gap:12px}
+.hy-swatch{font:900 clamp(1.6rem,5vw,2.6rem)/1 var(--display);text-transform:uppercase;padding:10px 16px;
+  background:var(--hy);color:var(--on-hy);transition:background .4s,color .4s}
+.hy-swatch--line{background:transparent;color:var(--fg);border:3px solid var(--hy)}
+.hy-swatch--text{background:transparent;color:var(--hy)}`,
+js:`const HY=['#A0DC00','#FFA000','#00BEE6','#DC0000','#FFE100'];
+function pickColour(){
+  const c=HY[Math.floor(Math.random()*HY.length)], r=document.documentElement.style;
+  r.setProperty('--hy',c); r.setProperty('--on-hy', c==='#DC0000'?'#fff':'#000');
+}
+pickColour(); window.hyPickColour=pickColour;`,
+replay:()=>window.hyPickColour(),replayLabel:"New visit"});
+
+C.push({id:"hero",name:"Hero slide-in + typewriter",status:"code",
+where:"Hero \"Wij houden / Van film / Eten en wijn\": lines move in from x −40 / +40 px over 1 s on ease (.44, 0, 0, 1), with delays of 2.4 s, 2.6 s and 2.8 s. A second line types itself out one character every 0.1 s, starting at 2.8 s, 3.0 s and 3.2 s.",
+desc:"On the real site this runs after the 2.4-second intro. Change --hy-start to 0s to skip that wait. Lines only move sideways, they never fade, so the text can always be read. The typed letters appear one at a time with no fade.",
+html:`<div class="hy-hero" style="--hy-start:.2s">
+  <h3 class="hy-hero__line" data-from="left" style="--d:0s">We love</h3>
+  <h3 class="hy-hero__line" data-from="left" style="--d:.2s">apples</h3>
+  <h3 class="hy-hero__line hy-hero__line--end" data-from="right" style="--d:.4s">Cider &amp; pie</h3>
+  <p class="hy-type" data-start=".6">pick your own, every weekend</p>
+</div>`,
+css:`.hy-hero{display:grid;gap:4px;overflow:hidden}
+.hy-hero__line{margin:0;font:900 clamp(3rem,11vw,6.5rem)/.85 var(--display);text-transform:uppercase}
+.hy-hero__line--end{justify-self:end;color:var(--hy)}
+.hy-hero.play .hy-hero__line{animation:hy-slide 1s var(--ease-hy) both;animation-delay:calc(var(--hy-start) + var(--d))}
+.hy-hero.play [data-from="left"]{--x:-40px}
+.hy-hero.play [data-from="right"]{--x:40px}
+@keyframes hy-slide{from{transform:translateX(var(--x))}}
+.hy-type{margin:8px 0 0;font:500 1rem var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.hy-type .ch{opacity:1}
+.hy-type.typing .ch{opacity:.001}
+.hy-type.typing .ch.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.hy-hero.play .hy-hero__line{animation:none}}`,
+js:`const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+root.querySelectorAll('.hy-type').forEach(p=>{
+  if(!p.dataset.text){p.dataset.text=p.textContent;p.setAttribute('aria-label',p.textContent);}
+  p.innerHTML=[...p.dataset.text].map(c=>'<span class="ch" aria-hidden="true">'+c+'</span>').join('');
+});
+function playHero(){
+  root.querySelectorAll('.hy-hero').forEach(h=>{h.classList.remove('play');void h.offsetWidth;h.classList.add('play')});
+  if(reduce)return;
+  root.querySelectorAll('.hy-type').forEach(p=>{
+    clearTimeout(p._t);const chs=[...p.querySelectorAll('.ch')];p.classList.add('typing');chs.forEach(c=>c.classList.remove('on'));
+    let i=0;const step=()=>{if(i<chs.length){chs[i++].classList.add('on');p._t=setTimeout(step,100)}else p.classList.remove('typing')};
+    p._t=setTimeout(step,parseFloat(p.dataset.start||0)*1000);
+  });
+}
+root._playHero=playHero; playHero();`,
+replay:el=>el._playHero()});
+
+C.push({id:"parallax",name:"Hero text parallax",status:"code",
+where:"Hero \"Text overlay\" uses Framer's scroll parallax at speed 110, which means it moves 10% faster than the page as you scroll",
+desc:"The headline glides slightly faster than the photo behind it, so it seems to float off the image. Scroll inside the box to try it. Set data-speed to anything other than 100 (above 100 is faster, below is slower).",
+html:`<div class="hy-scrollbox">
+  <div class="hy-par-hero">
+    <div class="hy-par-hero__img"></div>
+    <h3 class="hy-par" data-speed="110">We love<br>apples</h3>
+  </div>
+  <div class="hy-par-after">De perfecte plek voor cider, taart en een middag in het gras.</div>
+</div>`,
+css:`.hy-scrollbox{height:300px;overflow-y:auto;overscroll-behavior:contain;background:var(--bg)}
+.hy-par-hero{position:relative;height:420px;overflow:hidden}
+.hy-par-hero__img{position:absolute;inset:0;background:
+  radial-gradient(circle at 70% 60%,#DC0000 0 17%,transparent 18%),radial-gradient(circle at 35% 40%,#A0DC00 0 12%,transparent 13%),#1d2a12}
+.hy-par{position:absolute;left:20px;top:40px;margin:0;color:#fff;
+  font:900 clamp(3rem,10vw,5.5rem)/.85 var(--display);text-transform:uppercase;will-change:transform}
+.hy-par-after{padding:28px 20px 200px;font-size:1.1rem;max-width:40ch}`,
+js:`const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+root.querySelectorAll('.hy-par').forEach(el=>{
+  if(reduce)return;
+  const sc=el.closest('.hy-scrollbox')||window, f=(parseFloat(el.dataset.speed)||100)/100-1;
+  const pos=()=>sc===window?scrollY:sc.scrollTop;
+  const tick=()=>{el.style.transform='translateY('+(-pos()*f)+'px)'};
+  sc.addEventListener('scroll',()=>requestAnimationFrame(tick),{passive:true});tick();
+});`});
+
+C.push({id:"stickers",name:"Draggable genre stickers",status:"code",
+where:"Genre tags (HORROR, Documentaire, KINDERFILMS…): each is tilted (7°, −5°…) and gets its own brand colour. They pop in from scale 0 with a spring (bounce .5, 0.6 s) once fully on screen, grow to scale 1.1 and tilt to 4° on hover (spring .45 s), shrink to 0.9 when pressed, and can be dragged with no momentum.",
+desc:"This is the playful part of FC Hyena. Grab a sticker and throw it around. The pop-in uses an overshoot curve to stand in for Framer's spring. Each sticker remembers where you dropped it and moves to the top when you pick it up.",
+html:`<div class="hy-stickerboard">
+  ${[["SWEET","#00BEE6",7,8,18],["tart","#DC0000",-5,38,12],["heirloom","#FFE100",4,64,30],["CIDER","#A0DC00",-8,14,58],["BAKING","#FFA000",6,46,62],["for kids","#00BEE6",-3,74,70]]
+   .map(([t,c,r,x,y],i)=>'<button class="hy-sticker" style="--c:'+c+';--r:'+r+'deg;left:'+x+'%;top:'+y+'%;--i:'+i+'">'+t+'</button>').join('')}
+</div>`,
+css:`.hy-stickerboard{position:relative;height:300px;touch-action:none}
+.hy-sticker{position:absolute;font:900 clamp(1.4rem,4vw,2.1rem)/1 var(--display);text-transform:uppercase;
+  padding:10px 18px;border:0;border-radius:999px;background:var(--c);color:#000;cursor:grab;user-select:none;
+  transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--hr,var(--r))) scale(var(--s,1));
+  transition:transform .45s var(--spring)}
+.hy-sticker:hover{--hr:4deg;--s:1.1}
+.hy-sticker:active,.hy-sticker.dragging{--s:.9;cursor:grabbing}
+.hy-sticker.dragging{transition:none}
+.hy-stickerboard.pre .hy-sticker{--s:0}
+.hy-stickerboard.pop .hy-sticker{animation:hy-pop .6s var(--spring) both;animation-delay:calc(var(--i)*70ms)}
+@keyframes hy-pop{from{transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r)) scale(0)}}
+@media (prefers-reduced-motion:reduce){.hy-sticker{transition:none}.hy-stickerboard.pop .hy-sticker{animation:none}}`,
+js:`root.querySelectorAll('.hy-stickerboard').forEach(b=>{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');io.disconnect()}}),{threshold:1});
+  io.observe(b);
+  let z=10;
+  b.querySelectorAll('.hy-sticker').forEach(s=>{
+    let sx,sy;s._ox=s._oy=0;
+    s.addEventListener('pointerdown',e=>{s.setPointerCapture(e.pointerId);sx=e.clientX;sy=e.clientY;
+      s.classList.add('dragging');s.style.zIndex=++z;b.classList.remove('pop')});
+    s.addEventListener('pointermove',e=>{if(!s.classList.contains('dragging'))return;
+      s.style.setProperty('--dx',s._ox+e.clientX-sx+'px');s.style.setProperty('--dy',s._oy+e.clientY-sy+'px')});
+    const end=e=>{if(!s.classList.contains('dragging'))return;s.classList.remove('dragging');
+      s._ox+=e.clientX-sx;s._oy+=e.clientY-sy};
+    s.addEventListener('pointerup',end);s.addEventListener('pointercancel',end);
+  });
+});`,
+replay:el=>{const b=el.querySelector('.hy-stickerboard');b.querySelectorAll('.hy-sticker').forEach(s=>{s.style.removeProperty('--dx');s.style.removeProperty('--dy');s._ox=s._oy=0});b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}});
+
+C.push({id:"menu",name:"Swinging menu blocks",status:"code",
+where:"Menu Final: the colour blocks (BlockCinema yellow, BlockPetitResto orange, BlockAbout…) start rotated −90° around their top-left corner and swing down to 0°, each one triggered 200 ms after the last. The highlighted block tilts −6°. Eases are (.5, 0, 0, 1) and (.44, 0, 0, .95), at 0.8 to 1 s.",
+desc:"Open the menu and the blocks swing down from the top-left corner like signs on a hinge. Hover over a block and it tilts a little.",
+html:`<div class="hy-menu-demo">
+  <button class="hy-menu-btn" aria-expanded="false">menu</button>
+  <nav class="hy-menu" aria-label="Demo menu">
+    <a class="hy-block" href="#" style="--c:#FFE100;--i:0">orchard</a>
+    <a class="hy-block" href="#" style="--c:#FFA000;--i:1">cider bar</a>
+    <a class="hy-block" href="#" style="--c:#00BEE6;--i:2">about</a>
+  </nav>
+</div>`,
+css:`.hy-menu-demo{min-height:330px;position:relative}
+.hy-menu-btn{font:900 1.6rem/1 var(--display);text-transform:uppercase;background:var(--fg);color:var(--bg);
+  border:0;padding:10px 18px;cursor:pointer;position:relative;z-index:2}
+.hy-menu{display:grid;gap:10px;margin-top:14px;max-width:520px}
+.hy-block{display:block;background:var(--c);color:#000;text-decoration:none;padding:18px 22px;
+  font:900 clamp(2.2rem,7vw,3.6rem)/.9 var(--display);text-transform:uppercase;
+  transform-origin:0 0;transform:rotate(-90deg);visibility:hidden;
+  transition:transform .8s var(--ease-out),visibility 0s .8s}
+.hy-menu.open .hy-block{transform:rotate(0);visibility:visible;
+  transition:transform 1s cubic-bezier(.44,0,0,.95) calc(var(--i)*200ms),visibility 0s}
+.hy-menu.open .hy-block:hover,.hy-menu.open .hy-block:focus-visible{transform:rotate(-6deg);transition-delay:0s;transition-duration:.4s}
+@media (prefers-reduced-motion:reduce){.hy-block,.hy-menu.open .hy-block{transition:none}}`,
+js:`root.querySelectorAll('.hy-menu-btn').forEach(b=>{
+  const m=b.nextElementSibling;
+  b.addEventListener('click',()=>{const o=!m.classList.contains('open');m.classList.toggle('open',o);
+    b.setAttribute('aria-expanded',o);b.textContent=o?'close':'menu'});
+});
+setTimeout(()=>root.querySelector('.hy-menu-btn')?.click(),400);`});
+
+C.push({id:"ticket",name:"Ticket button tilt",status:"code",
+where:"Ticket BTN / H6 links: hovering rotates the button −6° with a soft spring (bounce .2, 0.4 s)",
+desc:"Every \"tickets\" button and small link tilts on hover, like a ticket stub that's been knocked. The colour comes from the visit colour.",
+html:`<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+  <a class="hy-ticket" href="#">tickets</a><a class="hy-ticket" href="#">19:30</a><a class="hy-ticket" href="#">meer informatie</a>
+</div>`,
+css:`.hy-ticket{display:inline-block;background:var(--hy);color:var(--on-hy);text-decoration:none;
+  font:900 1.5rem/1 var(--display);text-transform:uppercase;padding:8px 14px;
+  transition:transform .4s cubic-bezier(.34,1.3,.64,1)}
+.hy-ticket:hover,.hy-ticket:focus-visible{transform:rotate(-6deg)}
+@media (prefers-reduced-motion:reduce){.hy-ticket{transition:none}}`,js:``});
+
+C.push({id:"corner",name:"Folded-corner sticker",status:"part",
+where:"Sticker component on Specials: a square card with a triangular corner mask (a 353×353 SVG triangle) in the brand colour. Its transition is 0.4 s on ease (.44, 0, .23, .98). How far the fold grows on hover is my guess.",
+desc:"The specials carry a little folded corner. On hover the fold opens a bit wider, as if you were about to peel it back.",
+html:`<a class="hy-corner" href="#"><span class="hy-corner__label">Special</span><b>Pluk Day!</b><span class="hy-corner__date">za 24 okt</span></a>`,
+css:`.hy-corner{position:relative;display:grid;gap:6px;align-content:end;width:min(100%,300px);aspect-ratio:1;
+  padding:20px;background:var(--fg);color:var(--bg);text-decoration:none;overflow:hidden}
+.hy-corner::after{content:"";position:absolute;right:0;top:0;width:var(--fold,64px);aspect-ratio:1;
+  background:var(--hy);clip-path:polygon(0 0,100% 100%,0 100%);transform:scaleX(-1);
+  transition:width .4s cubic-bezier(.44,0,.23,.98)}
+.hy-corner:hover,.hy-corner:focus-visible{--fold:110px}
+.hy-corner b{font:900 2.8rem/.9 var(--display);text-transform:uppercase}
+.hy-corner__label,.hy-corner__date{font:500 .75rem var(--mono);text-transform:uppercase;letter-spacing:.1em}
+@media (prefers-reduced-motion:reduce){.hy-corner::after{transition:none}}`,js:``});
+
+C.push({id:"smooth",name:"Smooth scroll",status:"code",
+where:"shared-lib \"Smooth Scroll\" (Lenis-style): the page eases toward your scroll position each frame, using value = lerp(value, target, 1 − e^(−60·lerp·dt))",
+desc:"Scrolling on FC Hyena feels heavy and smooth because the page follows your wheel with a little lag. Scroll inside the box to feel it. A lerp of 0.1 is the usual default. Lower values glide longer.",
+html:`<div class="hy-smooth" data-lerp=".1">
+  <div class="hy-smooth__inner">${Array.from({length:10},(_,i)=>'<div class="hy-smooth__row">'+['Elstar','Goudreinet','Jonagold','Boskoop','Kanzi','Santana','Notarisappel','Dabinett','Granny Smith','Kingston Black'][i]+'</div>').join('')}</div>
+</div>`,
+css:`.hy-smooth{height:260px;overflow:hidden;position:relative;background:var(--bg);touch-action:pan-x}
+.hy-smooth__inner{will-change:transform}
+.hy-smooth__row{font:900 clamp(2rem,7vw,3.6rem)/1 var(--display);text-transform:uppercase;padding:10px 20px;border-bottom:2px solid var(--line)}
+.hy-smooth__row:nth-child(odd){color:var(--hy)}`,
+js:`root.querySelectorAll('.hy-smooth').forEach(box=>{
+  const inner=box.firstElementChild, lerp=parseFloat(box.dataset.lerp)||.1;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let target=0,cur=0,last=performance.now(),run=false;
+  const max=()=>inner.scrollHeight-box.clientHeight;
+  const frame=t=>{const dt=(t-last)/1000;last=t;
+    cur = reduce ? target : cur+(target-cur)*(1-Math.exp(-60*lerp*dt));
+    if(Math.abs(target-cur)<.5)cur=target;
+    inner.style.transform='translateY('+(-cur)+'px)';
+    run=cur!==target; if(run)requestAnimationFrame(frame)};
+  const go=d=>{target=Math.max(0,Math.min(max(),target+d));if(!run){run=true;last=performance.now();requestAnimationFrame(frame)}};
+  box.addEventListener('wheel',e=>{const t=Math.max(0,Math.min(max(),target+e.deltaY));if(t===target)return;e.preventDefault();go(e.deltaY)},{passive:false});
+  let ty=null;
+  box.addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
+  box.addEventListener('touchmove',e=>{if(ty===null)return;const y=e.touches[0].clientY;go((ty-y)*1.4);ty=y;e.preventDefault()},{passive:false});
+});`});
+
+C.push({id:"faq",name:"FAQ accordion",status:"code",
+where:"Veelgestelde vragen (Accordion / FAQ components): open and close use 0.4 s on ease (.44, 0, .23, .98), and the button changes between Open and Close",
+desc:"The question row is a button. The answer opens with a smooth height change using the 0fr to 1fr grid trick, and the + turns into ×. Only one answer is open at a time.",
+html:`<div class="hy-acc">
+  ${[["Bereikbaarheid","Ferry across the IJ, then twelve minutes by bike along the dike."],["Parkeren","Racks for 80 bikes at the gate, six car spots."],["Openingstijden","Wed to Sun. Orchard 10:00 to 17:00, bar 12:00 to 23:00."]]
+   .map(([q,a])=>'<div class="hy-acc__item"><button class="hy-acc__q" aria-expanded="false">'+q+'</button><div class="hy-acc__a"><div><p>'+a+'</p></div></div></div>').join('')}
+</div>`,
+css:`.hy-acc__item{border-top:2px solid var(--line)}
+.hy-acc__item:last-child{border-bottom:2px solid var(--line)}
+.hy-acc__q{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;padding:16px 0;font:900 clamp(1.4rem,4vw,2rem)/1 var(--display);text-transform:uppercase}
+.hy-acc__q::after{content:"+";display:grid;place-items:center;width:40px;height:40px;border-radius:50%;
+  background:var(--hy);color:var(--on-hy);font:400 1.8rem/1 var(--body);transition:transform .4s cubic-bezier(.44,0,.23,.98)}
+.hy-acc__q[aria-expanded="true"]::after{transform:rotate(45deg)}
+.hy-acc__q:focus-visible{outline:2px solid var(--hy);outline-offset:3px}
+.hy-acc__a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.44,0,.23,.98)}
+.hy-acc__a>div{overflow:hidden}
+.hy-acc__a p{margin:0 0 16px;max-width:60ch}
+.hy-acc__q[aria-expanded="true"]+.hy-acc__a{grid-template-rows:1fr}
+@media (prefers-reduced-motion:reduce){.hy-acc__a,.hy-acc__q::after{transition:none}}`,
+js:`root.querySelectorAll('.hy-acc').forEach(acc=>acc.addEventListener('click',e=>{
+  const q=e.target.closest('.hy-acc__q');if(!q)return;const open=q.getAttribute('aria-expanded')==='true';
+  acc.querySelectorAll('.hy-acc__q').forEach(b=>b.setAttribute('aria-expanded','false'));
+  q.setAttribute('aria-expanded',String(!open));
+}));`});
+
+C.push({id:"ticker",name:"Footer word ticker",status:"part",
+where:"\"Footer ticker\": a component that cycles through 3 variants (text versions) on its own, using ease (.5, 0, 0, 1). The 2.2-second interval is my guess.",
+desc:"The last word of the footer line keeps changing. Each word slides up and out, and the next slides in from below. Screen readers hear the full list once and not each change.",
+html:`<p class="hy-tick">FC Hyena is <span class="hy-tick__win" data-words="een cinema|een restaurant|een wijnbar"></span></p>`,
+css:`.hy-tick{margin:0;font:900 clamp(2rem,7vw,4rem)/1 var(--display);text-transform:uppercase}
+.hy-tick__win{display:inline-grid;overflow:hidden;vertical-align:bottom;color:var(--hy)}
+.hy-tick__win span{grid-area:1/1;transition:transform .6s var(--ease-out)}
+.hy-tick__win span.below{transform:translateY(100%)}
+.hy-tick__win span.above{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.hy-tick__win span{transition:none}}`,
+js:`root.querySelectorAll('.hy-tick__win').forEach(w=>{
+  const words=w.dataset.words.split('|');w.setAttribute('aria-label',words.join(', '));
+  w.innerHTML=words.map((t,i)=>'<span aria-hidden="true" class="'+(i?'below':'')+'">'+t+'</span>').join('');
+  const s=[...w.children];let i=0;
+  setInterval(()=>{s[i].className='above';const n=(i+1)%s.length;
+    s[n].style.transition='none';s[n].className='below';void s[n].offsetWidth;s[n].style.transition='';s[n].className='';
+    i=n},2200);
+});`});
+
+// render
+const list=document.getElementById('list'),toc=document.getElementById('toc'),kit=document.getElementById('kit-css');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+C.forEach(c=>{
+  kit.textContent+=c.css+'\n';
+  toc.insertAdjacentHTML('beforeend',`<a href="#${c.id}">${c.name}</a>`);
+  const src=`<!-- HTML -->\n${c.html}\n\n<style>\n${c.css}\n</style>`+(c.js?`\n\n<script>\n(root=>{\n${c.js}\n})(document);\n<\/script>`:'');
+  list.insertAdjacentHTML('beforeend',`<section class="comp" id="${c.id}">
+    <div class="comp-head"><h2>${c.name}</h2><span class="status ${c.status}">${c.status==='code'?'From code':'Partly guessed'}</span></div>
+    <p class="where">On FC Hyena: ${c.where}</p>
+    <p class="desc">${c.desc}</p>
+    <div class="stage">${c.html}</div>
+    <div class="tools">${c.replay?'<button class="btn" data-replay>'+(c.replayLabel||'Replay')+'</button>':''}<button class="btn" data-copy>Copy code</button></div>
+    <details class="src"><summary>Source</summary><pre><code>${esc(src)}</code></pre></details>
+  </section>`);
+  const sec=list.lastElementChild,stage=sec.querySelector('.stage');
+  try{ if(c.js) new Function('root',c.js)(stage); }catch(e){console.error(c.id,e)}
+  sec.querySelector('[data-replay]')?.addEventListener('click',()=>c.replay(stage));
+  sec.querySelector('[data-copy]').addEventListener('click',e=>{
+    const b=e.currentTarget;
+    navigator.clipboard.writeText(src).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy code',1400)})
+      .catch(()=>{const d=sec.querySelector('details');d.open=true;getSelection().selectAllChildren(d.querySelector('code'))});
+  });
+});
+</script>

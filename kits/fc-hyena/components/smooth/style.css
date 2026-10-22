@@ -1,0 +1,4 @@
+.hy-smooth{height:260px;overflow:hidden;position:relative;background:var(--bg);touch-action:pan-x}
+.hy-smooth__inner{will-change:transform}
+.hy-smooth__row{font:900 clamp(2rem,7vw,3.6rem)/1 var(--display);text-transform:uppercase;padding:10px 20px;border-bottom:2px solid var(--line)}
+.hy-smooth__row:nth-child(odd){color:var(--hy)}

@@ -1,0 +1,7 @@
+.hy-scrollbox{height:300px;overflow-y:auto;overscroll-behavior:contain;background:var(--bg)}
+.hy-par-hero{position:relative;height:420px;overflow:hidden}
+.hy-par-hero__img{position:absolute;inset:0;background:
+  radial-gradient(circle at 70% 60%,#DC0000 0 17%,transparent 18%),radial-gradient(circle at 35% 40%,#A0DC00 0 12%,transparent 13%),#1d2a12}
+.hy-par{position:absolute;left:20px;top:40px;margin:0;color:#fff;
+  font:900 clamp(3rem,10vw,5.5rem)/.85 var(--display);text-transform:uppercase;will-change:transform}
+.hy-par-after{padding:28px 20px 200px;font-size:1.1rem;max-width:40ch}

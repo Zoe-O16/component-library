@@ -1,0 +1,12 @@
+.hy-hero{display:grid;gap:4px;overflow:hidden}
+.hy-hero__line{margin:0;font:900 clamp(3rem,11vw,6.5rem)/.85 var(--display);text-transform:uppercase}
+.hy-hero__line--end{justify-self:end;color:var(--hy)}
+.hy-hero.play .hy-hero__line{animation:hy-slide 1s var(--ease-hy) both;animation-delay:calc(var(--hy-start) + var(--d))}
+.hy-hero.play [data-from="left"]{--x:-40px}
+.hy-hero.play [data-from="right"]{--x:40px}
+@keyframes hy-slide{from{transform:translateX(var(--x))}}
+.hy-type{margin:8px 0 0;font:500 1rem var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.hy-type .ch{opacity:1}
+.hy-type.typing .ch{opacity:.001}
+.hy-type.typing .ch.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.hy-hero.play .hy-hero__line{animation:none}}

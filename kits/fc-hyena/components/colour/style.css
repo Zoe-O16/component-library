@@ -1,0 +1,7 @@
+/* put on :root once */
+:root{--hy:#A0DC00;--on-hy:#000}
+.hy-swatches{display:flex;flex-wrap:wrap;gap:12px}
+.hy-swatch{font:900 clamp(1.6rem,5vw,2.6rem)/1 var(--display);text-transform:uppercase;padding:10px 16px;
+  background:var(--hy);color:var(--on-hy);transition:background .4s,color .4s}
+.hy-swatch--line{background:transparent;color:var(--fg);border:3px solid var(--hy)}
+.hy-swatch--text{background:transparent;color:var(--hy)}

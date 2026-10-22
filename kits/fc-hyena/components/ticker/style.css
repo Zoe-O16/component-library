@@ -1,0 +1,6 @@
+.hy-tick{margin:0;font:900 clamp(2rem,7vw,4rem)/1 var(--display);text-transform:uppercase}
+.hy-tick__win{display:inline-grid;overflow:hidden;vertical-align:bottom;color:var(--hy)}
+.hy-tick__win span{grid-area:1/1;transition:transform .6s var(--ease-out)}
+.hy-tick__win span.below{transform:translateY(100%)}
+.hy-tick__win span.above{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.hy-tick__win span{transition:none}}

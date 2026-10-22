@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starface Motion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Space+Mono:wght@400;700&display=swap">
+<style id="tokens">
+:root{
+  --bg:#FDFF00; --fg:#000000; --surface:#ffffff; --muted:#4d4d00; --line:#000000;
+  --sf:#FDFF00; --on-sf:#000000;
+  --sf-pink:#FF00D3; --sf-blue:#00BFFA; --sf-green:#26BA28; --sf-purple:#9B74E7; --sf-red:#FF3C3A;
+  --radius:26px; --radius-btn:25px;
+  --display:"Nunito","Arial Rounded MT Bold",system-ui,sans-serif;
+  --body:"Space Mono",ui-monospace,Menlo,monospace; --mono:"Space Mono",ui-monospace,Menlo,monospace;
+  --dur-short:.1s; --dur-default:.2s; --dur-long:.5s;
+  --bp-tablet:750px; --bp-desktop:990px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--fg:#ffffff;--surface:#1a1a1a;--muted:#b3b3b3;--line:#ffffff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000000;--fg:#ffffff;--surface:#1a1a1a;--muted:#b3b3b3;--line:#ffffff;color-scheme:dark}
+</style>
+<style>
+/* Layout: one long index of components; each = name + source tag + demo stage + code. Base is Starface's yellow ground (light) or black body (dark), rounded 26px corners, lowercase rounded headings. */
+:root{--code:#000000;--codefg:#FDFF00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 .95rem/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1100px;margin:0 auto;padding-block:32px 64px}
+h1,h2{font-family:var(--display);font-weight:900;text-transform:lowercase;line-height:.95;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(3.2rem,11vw,7rem)}
+h1 span{background:#000;color:var(--sf);padding:0 .14em .04em;border-radius:.3em}
+.intro{max-width:64ch;margin:20px 0 0}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.toc a{font:700 .78rem var(--mono);text-decoration:none;border:2px solid var(--line);border-radius:var(--radius-btn);padding:4px 12px;color:var(--fg)}
+.toc a:hover{background:var(--fg);color:var(--bg)}
+.comp{border-top:2px solid var(--line);padding-block:40px;display:grid;gap:14px}
+.comp-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.comp h2{font-size:clamp(2rem,6vw,3.2rem)}
+.status{font:700 .7rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border:2px solid currentColor;border-radius:var(--radius-btn)}
+.status.code{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.status.part{color:var(--muted)}
+.where{font:400 .82rem var(--mono);color:var(--muted);margin:0;max-width:80ch}
+.where a{color:inherit}
+.comp p.desc{margin:0;max-width:64ch}
+.stage{background:var(--surface);color:var(--fg);border-radius:var(--radius);padding:clamp(16px,4vw,36px);min-width:0;overflow:hidden;position:relative}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:700 .82rem var(--body);background:transparent;color:var(--fg);border:2px solid var(--line);border-radius:var(--radius-btn);padding:5px 14px;cursor:pointer}
+.btn:hover{background:var(--fg);color:var(--bg)}
+details.src summary{cursor:pointer;font:700 .78rem var(--mono);text-transform:uppercase;letter-spacing:.08em}
+pre{background:var(--code);color:var(--codefg);border-radius:16px;padding:16px;overflow-x:auto;font:400 .76rem/1.5 var(--mono);margin:10px 0 0;max-width:100%}
+.view{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px}
+.view .btn[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.view small{font:400 .78rem var(--mono);color:var(--muted)}
+.phone{display:block;width:390px;max-width:100%;margin-inline:auto;border:2px solid var(--line);border-radius:var(--radius);background:var(--surface);height:240px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--sf-pink);outline-offset:3px}
+</style>
+<style id="kit-css"></style>
+
+<div class="wrap">
+  <span class="where"><a href="https://zoe-o16.github.io/component-library/">← All kits</a> · <a href="https://github.com/Zoe-O16/component-library/tree/main/kits/starface">Code</a> · starface.world · motion study</span>
+  <h1>Starface <span>Motion</span></h1>
+  <p class="intro">These are the animations on starface.world, a Shopify shop built on the Dawn theme with no animation library. The values come from the theme's own CSS and JS and are rebuilt here from scratch in plain HTML, CSS and JS. Note that Dawn sets 1rem to 10px, so every value below is given in pixels. <b>From code</b> means the effect and its numbers come straight from the site. <b>Partly guessed</b> means the effect is there, but some of its values weren't in the code. Starface's motion is quick and functional: 0.1, 0.2 and 0.5 s on plain <code>ease</code>, with one burst of star confetti on top.</p>
+  <div class="view" role="group" aria-label="Preview size"><button class="btn" data-view="desktop" aria-pressed="true">Desktop</button><button class="btn" data-view="mobile" aria-pressed="false">Mobile · 390px</button><small>Mobile shows each demo at phone width, so the site's 750 and 990 px breakpoints apply.</small></div>
+  <nav class="toc" id="toc" aria-label="Components"></nav>
+  <div id="list"></div>
+</div>
+
+<script>
+const C=[];
+C.push({id:"announce",name:"Announcement carousel",status:"code",
+where:"Announcement bar above the header (inline theme script): each message waits off to the right at translateX(100%), slides to 0 and leaves to −100% with transform 0.3 s ease-in-out. It rotates every 5 s (delaySeconds = 5). The bar is at least 34 px high with 14 px text. A message that has left snaps back to the right once its transition ends.",
+desc:"A thin bar that swaps its message every five seconds. Every message slides in from the right and pushes the old one out to the left. The first message is in place before any script runs, and the hidden ones are kept from screen readers until their turn.",
+html:`<div class="sf-announce" data-delay="5">
+  <p class="sf-announce__bar">free sticker sheet with every order</p>
+  <p class="sf-announce__bar">new colours just landed</p>
+  <p class="sf-announce__bar">made for spots, not for hiding</p>
+</div>`,
+css:`.sf-announce{position:relative;overflow:hidden;min-height:34px;background:#000;color:var(--sf);border-radius:var(--radius)}
+.sf-announce__bar{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;padding:0 16px;
+  font:700 14px/1.2 var(--body);text-transform:lowercase;text-align:center;
+  transform:translateX(100%);transition:transform .3s ease-in-out}
+.sf-announce__bar:first-child{transform:translateX(0)}
+@media (prefers-reduced-motion:reduce){.sf-announce__bar{transition:none}}`,
+js:`const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+root.querySelectorAll('.sf-announce').forEach(a=>{
+  clearInterval(a._t);
+  const bars=[...a.children], delay=(parseFloat(a.dataset.delay)||5)*1000;let i=0;
+  bars.forEach((b,n)=>{b.style.transform=n?'translateX(100%)':'translateX(0)';b.setAttribute('aria-hidden',n?'true':'false')});
+  if(bars.length<2)return;
+  a._t=setInterval(()=>{
+    const out=bars[i];out.style.transform='translateX(-100%)';out.setAttribute('aria-hidden','true');
+    i=(i+1)%bars.length;bars[i].style.transform='translateX(0)';bars[i].setAttribute('aria-hidden','false');
+    const reset=()=>{out.style.transition='none';out.style.transform='translateX(100%)';void out.offsetWidth;out.style.transition=''};
+    reduce?reset():out.addEventListener('transitionend',reset,{once:true});
+  },delay);
+});`});
+
+C.push({id:"header",name:"Hide-on-scroll header",status:"code",
+where:"StickyHeader (scripts.js): under 990 px, scrolling down past the header adds .shopify-section-header-hidden (translateY(−100%)) and makes it sticky. Scrolling up adds .animate and removes hidden, so it slides back with transform 0.15 s ease-out. Back at the top, all classes are removed and the header sits in the page again.",
+desc:"On a phone the header gets out of the way while you read and comes back as soon as you scroll up a little. Scroll inside the box to try it. On Starface this only runs under 990 px (set data-max=\"990\"). The demo uses data-max=\"9999\" so it also works at desktop width.",
+html:`<div class="sf-scrollbox">
+  <header class="sf-header" data-max="9999"><b>sunspot</b><span class="sf-header__icons">menu · bag (2)</span></header>
+  <div class="sf-scrollbox__body">
+    <div class="sf-row" style="--c:var(--sf-pink)"></div><div class="sf-row" style="--c:var(--sf-blue)"></div><div class="sf-row" style="--c:var(--sf-green)"></div>
+    <div class="sf-row" style="--c:var(--sf-purple)"></div><div class="sf-row" style="--c:var(--sf-red)"></div><div class="sf-row" style="--c:var(--sf-pink)"></div>
+  </div>
+</div>`,
+css:`.sf-scrollbox{position:relative;height:300px;overflow-y:auto;overscroll-behavior:contain;background:var(--surface);border-radius:var(--radius)}
+.sf-header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;
+  background:var(--sf);color:var(--on-sf);font:900 1.5rem/1 var(--display);text-transform:lowercase}
+.sf-header.is-sticky{position:sticky;top:0}
+.sf-header.is-hidden{transform:translateY(-100%)}
+.sf-header.animate{transition:transform .15s ease-out}
+.sf-header__icons{font:400 .8rem var(--body)}
+.sf-scrollbox__body{padding:16px;display:grid;gap:12px}
+.sf-row{height:90px;border-radius:var(--radius);background:var(--c)}
+@media (prefers-reduced-motion:reduce){.sf-header.animate{transition:none}}`,
+js:`root.querySelectorAll('.sf-header').forEach(h=>{
+  const box=h.closest('.sf-scrollbox'), sc=box||window, max=parseFloat(h.dataset.max)||990;
+  const y=()=>box?box.scrollTop:scrollY, w=()=>box?box.clientWidth:innerWidth;
+  const top=h.offsetTop, bottom=top+h.offsetHeight;let last=0;
+  sc.addEventListener('scroll',()=>{
+    const s=y();
+    if(w()<max&&s>last&&s>bottom)requestAnimationFrame(()=>h.classList.add('is-hidden','is-sticky'));
+    else if(w()<max&&s<last&&s>bottom)requestAnimationFrame(()=>{h.classList.add('is-sticky','animate');h.classList.remove('is-hidden')});
+    else if(s<=top)requestAnimationFrame(()=>h.classList.remove('is-hidden','is-sticky','animate'));
+    last=s;
+  },{passive:true});
+});`});
+
+C.push({id:"menu",name:"Menu drawer",status:"code",
+where:"menu-drawer: the panel sits at translateX(−100%) with visibility hidden. Opening sets [open], then adds .menu-opening, and it slides to 0 with transform 600 ms ease, visibility 300 ms ease. It is full width with the right corners rounded 26 px. Closing removes .menu-opening and takes [open] off 400 ms later (a requestAnimationFrame timer), so the slide-out gets cut short.",
+desc:"Starface's phone and tablet menu. Tap menu and a black panel slides in from the left edge. The menu is a native details element, so it still opens without the script.",
+html:`<div class="sf-drawer-demo">
+  <details class="sf-menu"><summary class="sf-menu__toggle" aria-expanded="false">menu</summary>
+    <nav class="sf-menu__drawer" aria-label="Demo menu"><a href="#">shop all</a><a href="#">patches</a><a href="#">skincare</a><a href="#">about us</a></nav>
+  </details>
+</div>`,
+css:`.sf-drawer-demo{position:relative;height:330px;overflow:hidden;border-radius:var(--radius);background:var(--surface)}
+.sf-menu__toggle{list-style:none;cursor:pointer;display:inline-block;margin:16px;padding:10px 20px;border-radius:var(--radius-btn);
+  background:var(--sf);color:var(--on-sf);font:900 1.2rem/1 var(--display);text-transform:lowercase}
+.sf-menu__toggle::-webkit-details-marker{display:none}
+.sf-menu__drawer{position:absolute;left:0;top:72px;bottom:0;width:100%;display:grid;align-content:start;gap:6px;padding:24px;
+  background:#000;color:var(--sf);border-radius:0 var(--radius) var(--radius) 0;transform:translateX(-100%);visibility:hidden}
+.sf-menu[open]>.sf-menu__drawer{transition:transform .6s ease,visibility .3s ease}
+.sf-menu[open].menu-opening>.sf-menu__drawer,.sf-menu:not(.sf-js)[open]>.sf-menu__drawer{transform:translateX(0);visibility:visible}
+.sf-menu__drawer a{color:inherit;text-decoration:none;font:900 clamp(1.8rem,6vw,2.6rem)/1.1 var(--display);text-transform:lowercase}
+@media (prefers-reduced-motion:reduce){.sf-menu[open]>.sf-menu__drawer{transition:none}}`,
+js:`root.querySelectorAll('.sf-menu').forEach(d=>{
+  d.classList.add('sf-js');const s=d.querySelector('summary');
+  s.addEventListener('click',e=>{
+    e.preventDefault();
+    if(!d.open){d.open=true;s.setAttribute('aria-expanded','true');s.textContent='close';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('menu-opening')));}
+    else{d.classList.remove('menu-opening');s.setAttribute('aria-expanded','false');s.textContent='menu';
+      let t0;const step=t=>{t0??=t;t-t0<400?requestAnimationFrame(step):d.open=false};requestAnimationFrame(step);}
+  });
+});`});
+
+C.push({id:"dropdown",name:"Dropdown fade-down",status:"code",
+where:"@keyframes animateMenuOpen: opacity 0 → 1 and translateY(−15px) → 0, over 0.2 s ease (--duration-default), fill-mode forwards. Used on desktop header submenus, the search modal and the share box whenever their details element opens.",
+desc:"Each submenu drops in from just above and fades up at the same time. It's short enough that it never gets in the way. Opening one closes the other.",
+html:`<div class="sf-dd-row">
+  <details class="sf-dd"><summary>shop</summary><ul class="sf-dd__panel"><li><a href="#">patches</a></li><li><a href="#">cleansers</a></li><li><a href="#">sets</a></li></ul></details>
+  <details class="sf-dd"><summary>learn</summary><ul class="sf-dd__panel"><li><a href="#">how it works</a></li><li><a href="#">faq</a></li></ul></details>
+</div>`,
+css:`.sf-dd-row{display:flex;gap:10px;flex-wrap:wrap;min-height:190px;align-items:flex-start}
+.sf-dd{position:relative}
+.sf-dd>summary{list-style:none;cursor:pointer;padding:10px 20px;border-radius:var(--radius-btn);border:2px solid var(--fg);
+  font:900 1.2rem/1 var(--display);text-transform:lowercase}
+.sf-dd>summary::-webkit-details-marker{display:none}
+.sf-dd[open]>summary{background:var(--fg);color:var(--bg)}
+.sf-dd__panel{position:absolute;left:0;top:calc(100% + 8px);z-index:3;margin:0;padding:14px 20px;list-style:none;min-width:200px;
+  background:var(--sf);color:var(--on-sf);border-radius:var(--radius);display:grid;gap:6px}
+.sf-dd__panel a{color:inherit;font:700 .95rem var(--body);text-transform:lowercase}
+.sf-dd[open]>.sf-dd__panel{animation:sf-menu-open .2s ease forwards}
+@keyframes sf-menu-open{0%{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.sf-dd[open]>.sf-dd__panel{animation:none}}`,
+js:`const dds=[...root.querySelectorAll('.sf-dd')];
+dds.forEach(d=>d.addEventListener('toggle',()=>{if(d.open)dds.forEach(o=>{if(o!==d)o.open=false})}));`});
+
+C.push({id:"cart",name:"Cart drawer",status:"code",
+where:"cart-drawer: .drawer__inner starts at translate(−100%) and moves to 0 with transform 0.6 s ease once .active is added (in a setTimeout after opening). The backdrop is the foreground colour at 50% and only toggles visibility over 0.2 s ease. From 750 px the panel is pinned left, 400 px wide (w-[40rem]), with 20 px rounded right corners.",
+desc:"The bag slides in from the left, not the right as on most shops. Close it with the ×, by clicking the backdrop or with Escape. Because the backdrop hides after 0.2 s, closing is a quick cut and not a slide back out, just like on the site.",
+html:`<div class="sf-cart-demo">
+  <button class="sf-pill sf-cart-open">bag (2)</button>
+  <div class="sf-cart">
+    <div class="sf-cart__overlay"></div>
+    <div class="sf-cart__inner" role="dialog" aria-modal="true" aria-label="Bag">
+      <div class="sf-cart__head"><h3>bag</h3><button class="sf-cart__close" aria-label="Close bag">×</button></div>
+      <p class="sf-cart__line"><span class="sf-cart__thumb" style="--c:var(--sf-pink)"></span>spot patches · 32</p>
+      <p class="sf-cart__line"><span class="sf-cart__thumb" style="--c:var(--sf-blue)"></span>gentle wash · 1</p>
+      <button class="sf-pill sf-pill--dark">check out</button>
+    </div>
+  </div>
+</div>`,
+css:`.sf-pill{font:900 1.1rem/1 var(--display);text-transform:lowercase;padding:12px 22px;border-radius:var(--radius-btn);border:0;cursor:pointer;background:var(--sf);color:var(--on-sf)}
+.sf-pill--dark{background:#000;color:var(--sf)}
+.sf-cart-demo{position:relative;height:340px;overflow:hidden;border-radius:var(--radius);padding:20px}
+.sf-cart{position:absolute;inset:0;z-index:3;display:flex;justify-content:center;visibility:hidden;transition:visibility .2s ease}
+.sf-cart.active{visibility:visible}
+.sf-cart__overlay{position:absolute;inset:0;background:rgb(0 0 0 / .5)}
+.sf-cart__inner{position:relative;display:flex;flex-direction:column;gap:12px;width:100%;height:100%;padding:0 25px 20px;
+  background:#fff;color:#000;transform:translate(-100%);transition:transform .6s ease}
+.sf-cart.active .sf-cart__inner{transform:translate(0)}
+@media (min-width:750px){.sf-cart{justify-content:flex-start}.sf-cart__inner{width:400px;border-radius:0 20px 20px 0}}
+.sf-cart__head{display:flex;justify-content:space-between;align-items:center;padding-top:20px}
+.sf-cart__head h3{margin:0;font:900 2.2rem/1 var(--display);text-transform:lowercase}
+.sf-cart__close{width:44px;height:44px;border:0;background:none;color:inherit;font-size:2rem;cursor:pointer}
+.sf-cart__line{display:flex;align-items:center;gap:12px;margin:0;font:400 .9rem var(--body)}
+.sf-cart__thumb{width:48px;height:48px;border-radius:14px;background:var(--c)}
+.sf-cart__inner .sf-pill{margin-top:auto}
+@media (prefers-reduced-motion:reduce){.sf-cart,.sf-cart__inner{transition:none}}`,
+js:`root.querySelectorAll('.sf-cart-open').forEach(b=>{
+  const d=b.parentElement.querySelector('.sf-cart');
+  const close=()=>{d.classList.remove('active');b.focus()};
+  b.addEventListener('click',()=>setTimeout(()=>{d.classList.add('animate','active');d.querySelector('.sf-cart__close').focus()}));
+  d.querySelector('.sf-cart__overlay').addEventListener('click',close);
+  d.querySelector('.sf-cart__close').addEventListener('click',close);
+  d.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+});`});
+
+C.push({id:"card",name:"Product card image swap",status:"code",
+where:"component-card.css, from 990 px only: on hover a card with two images hides the first (opacity 0) and shows the second (opacity 1) scaled to 1.03 with transform 0.5 s ease (--duration-long). A card with one image just scales it to 1.03 over 0.5 s ease. Images fade with opacity 0.4 s cubic-bezier(.25, .46, .45, .94). Card corners 26 px.",
+desc:"Hover a product to see it from a second angle, with a slight zoom. The swap is instant on the way in and fades back over 0.4 s on the way out, because the hover rule swaps the transition for transform only. The right-hand card has one image, so it only zooms. Keyboard focus does the same as hover.",
+html:`<div class="sf-cards">
+  <a class="sf-card" href="#"><div class="sf-card__media"><span class="sf-img" style="--a:var(--sf-pink);--b:var(--sf)"></span><span class="sf-img" style="--a:var(--sf);--b:var(--sf-pink)"></span></div><p class="sf-card__name">spot patches</p><p class="sf-card__price">$12</p></a>
+  <a class="sf-card" href="#"><div class="sf-card__media"><span class="sf-img" style="--a:var(--sf-blue);--b:#fff"></span><span class="sf-img" style="--a:#fff;--b:var(--sf-blue)"></span></div><p class="sf-card__name">gentle wash</p><p class="sf-card__price">$15</p></a>
+  <a class="sf-card" href="#"><div class="sf-card__media"><span class="sf-img" style="--a:var(--sf-green);--b:var(--sf)"></span></div><p class="sf-card__name">sticker sheet</p><p class="sf-card__price">$4</p></a>
+</div>`,
+css:`.sf-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.sf-card{display:block;border-radius:var(--radius);overflow:hidden;background:#fff;color:#000;text-decoration:none;border:2px solid #000}
+.sf-card__media{position:relative;aspect-ratio:1;overflow:hidden}
+.sf-img{position:absolute;inset:0;transition:opacity .4s cubic-bezier(.25,.46,.45,.94);
+  background:radial-gradient(circle at 50% 50%,var(--a) 0 28%,transparent 29%),radial-gradient(circle at 78% 22%,var(--a) 0 9%,transparent 10%),var(--b)}
+.sf-img+.sf-img{opacity:0}
+.sf-card__name{margin:12px 16px 0;font:900 1.2rem/1 var(--display);text-transform:lowercase}
+.sf-card__price{margin:4px 16px 14px;font:400 .85rem var(--body)}
+@media (min-width:990px){
+  .sf-img:only-child{transition:transform .5s ease}
+  .sf-card:is(:hover,:focus-visible) .sf-img:only-child{transform:scale(1.03)}
+  .sf-card:is(:hover,:focus-visible) .sf-img:first-child:not(:only-child){opacity:0}
+  .sf-card:is(:hover,:focus-visible) .sf-img+.sf-img{opacity:1;transition:transform .5s ease;transform:scale(1.03)}
+}
+@media (prefers-reduced-motion:reduce){.sf-img,.sf-img:only-child,.sf-card:is(:hover,:focus-visible) .sf-img+.sf-img{transition:none;transform:none!important}}`,js:``});
+
+C.push({id:"marquee",name:"Yellow marquee",status:"code",
+where:"Product page marquee (section-main-product.css): two copies of the content each move translate(0) → translate(−100%) with @keyframes scrolling, 30 s linear infinite (the copy starts 0.01 s later). The track is 55 px high on a yellow rounded band (26 px), headings 22 px lowercase, small text 16 px, items spread with space-around.",
+desc:"A slow ribbon of words that never stops. Because each copy is exactly as wide as the band, the loop has no seam. The second copy is hidden from screen readers.",
+html:`<div class="sf-marquee"><div class="sf-marquee__track">
+  <div class="sf-marquee__content"><p class="sf-marquee__text">glow on</p><span>★</span><p class="sf-marquee__text">sticker season</p><span>★</span><p class="sf-marquee__text">be kind to your skin</p><span>★</span></div>
+  <div class="sf-marquee__content rpt" aria-hidden="true"><p class="sf-marquee__text">glow on</p><span>★</span><p class="sf-marquee__text">sticker season</p><span>★</span><p class="sf-marquee__text">be kind to your skin</p><span>★</span></div>
+</div></div>`,
+css:`.sf-marquee{background:var(--sf);color:#000;border-radius:var(--radius);margin-bottom:3px}
+.sf-marquee__track{display:flex;align-items:center;height:55px;overflow:hidden;white-space:nowrap}
+.sf-marquee__content{display:flex;flex:0 0 100%;justify-content:space-around;align-items:center;animation:sf-scrolling 30s linear infinite}
+.sf-marquee__content.rpt{animation-delay:.01s}
+.sf-marquee__text{margin:0;font:900 22px var(--display);text-transform:lowercase}
+.sf-marquee span{font-size:16px}
+@keyframes sf-scrolling{0%{transform:translate(0)}to{transform:translate(-100%)}}
+@media (prefers-reduced-motion:reduce){.sf-marquee__content{animation:none}}`,js:``});
+
+C.push({id:"confetti",name:"Star confetti burst",status:"code",
+where:"Free-gift modal (inline theme script) calls canvas-confetti 1.6.0 with particleCount 100, startVelocity 30, spread 360, shapes ['star'] from the centre (0.5, 0.5). The library defaults fill in the rest: decay 0.9, gravity 1, ticks 200, star radius 8/4 px, and colours #26ccff #a25afd #ff5e7e #88ff5a #fcff42 #ffa62d #ff36ff.",
+desc:"When you unlock the free gift, 100 little stars burst out in every direction and drift down as they fade. Here it's a small canvas script with the same physics, so no library is needed. For a full-screen burst, give the canvas position:fixed and inset:0.",
+html:`<div class="sf-confetti-demo">
+  <button class="sf-pill sf-pop">unlock free gift</button>
+  <canvas class="sf-confetti" aria-hidden="true"></canvas>
+</div>`,
+css:`.sf-pill{font:900 1.1rem/1 var(--display);text-transform:lowercase;padding:12px 22px;border-radius:var(--radius-btn);border:0;cursor:pointer;background:var(--sf);color:var(--on-sf)}
+.sf-confetti-demo{position:relative;display:grid;place-items:center;height:280px}
+.sf-confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sf-pop{position:relative;z-index:1}`,
+js:`const COLORS=['#26ccff','#a25afd','#ff5e7e','#88ff5a','#fcff42','#ffa62d','#ff36ff'];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function star(ctx,x,y,o,i){ctx.beginPath();let r=Math.PI/2*3;const st=Math.PI/5;ctx.moveTo(x,y-o);
+  for(let k=0;k<5;k++){ctx.lineTo(x+Math.cos(r)*o,y+Math.sin(r)*o);r+=st;ctx.lineTo(x+Math.cos(r)*i,y+Math.sin(r)*i);r+=st}
+  ctx.lineTo(x,y-o);ctx.closePath();ctx.fill()}
+function burst(c,{particleCount=100,startVelocity=30,spread=360,angle=90,decay=.9,gravity=1,ticks=200}={}){
+  const ctx=c.getContext('2d'),w=c.clientWidth,h=c.clientHeight,dpr=devicePixelRatio||1;
+  c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);cancelAnimationFrame(c._raf);
+  const rs=spread*Math.PI/180,P=Array.from({length:particleCount},(_,i)=>({x:w/2,y:h/2,col:COLORS[i%COLORS.length],
+    a:-angle*Math.PI/180+(.5*rs-Math.random()*rs),v:startVelocity*.5+Math.random()*startVelocity}));
+  let t=0;
+  const step=()=>{ctx.clearRect(0,0,w,h);t++;
+    P.forEach(p=>{p.x+=Math.cos(p.a)*p.v;p.y+=Math.sin(p.a)*p.v+gravity*3;p.v*=decay;
+      ctx.globalAlpha=Math.max(0,1-t/ticks);ctx.fillStyle=p.col;star(ctx,p.x,p.y,8,4)});
+    if(t<ticks)c._raf=requestAnimationFrame(step);else ctx.clearRect(0,0,w,h)};
+  if(reduce){for(let k=0;k<12;k++)P.forEach(p=>{p.x+=Math.cos(p.a)*p.v;p.y+=Math.sin(p.a)*p.v;p.v*=decay});
+    ctx.fillStyle='#000';P.forEach(p=>{ctx.fillStyle=p.col;star(ctx,p.x,p.y,8,4)});setTimeout(()=>ctx.clearRect(0,0,w,h),1200);return}
+  step();
+}
+root.querySelectorAll('.sf-pop').forEach(b=>b.addEventListener('click',()=>burst(b.parentElement.querySelector('.sf-confetti'))));
+root._burst=()=>root.querySelector('.sf-pop')?.click();`,
+replay:el=>el._burst(),replayLabel:"Burst"});
+
+C.push({id:"slider",name:"Slider arrows and dots",status:"code",
+where:"component-slider.css + SliderComponent (global.js): slides snap with scroll-snap-type x mandatory and the buttons move by one slide with scrollTo({behavior:'smooth'}). The 44 px arrow buttons are chevrons rotated ±90°; on hover the icon jumps to scale(1.1) with no transition. The 10 px dots and number links ease with transform 0.2 s ease-in-out to scale(1.1) on hover and when active. Arrows are disabled at the ends.",
+desc:"Arrows and dots for a row of products. Scroll with the arrows, the dots or by swiping, and the active dot follows. The arrow hover is a hard snap on the site, so the kit leaves it without a transition as well.",
+html:`<div class="sf-slider">
+  <ul class="sf-slider__track">
+    <li style="--c:var(--sf-pink)">1</li><li style="--c:var(--sf-blue)">2</li><li style="--c:var(--sf-green)">3</li><li style="--c:var(--sf-purple)">4</li><li style="--c:var(--sf-red)">5</li>
+  </ul>
+  <div class="sf-slider__buttons">
+    <button class="sf-slider__btn sf-slider__btn--prev" aria-label="Previous slide"><svg class="sf-icon" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+    <div class="sf-slider__dots"></div>
+    <button class="sf-slider__btn sf-slider__btn--next" aria-label="Next slide"><svg class="sf-icon" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+  </div>
+</div>`,
+css:`.sf-slider__track{display:flex;gap:12px;margin:0;padding:0;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.sf-slider__track::-webkit-scrollbar{display:none}
+.sf-slider__track li{flex:0 0 75%;scroll-snap-align:start;height:150px;border-radius:var(--radius);background:var(--c);
+  display:grid;place-items:center;font:900 3rem/1 var(--display);color:#000}
+@media (min-width:750px){.sf-slider__track li{flex-basis:calc((100% - 24px)/3)}}
+.sf-slider__buttons{display:flex;align-items:center;justify-content:center;margin-top:8px}
+.sf-slider__btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;cursor:pointer;color:color-mix(in srgb,var(--fg) 75%,transparent)}
+.sf-slider__btn:not([disabled]):hover{color:var(--fg)}
+.sf-slider__btn[disabled]{color:color-mix(in srgb,var(--fg) 30%,transparent);cursor:not-allowed}
+.sf-icon{width:10px;height:6px}
+.sf-slider__btn--next .sf-icon{transform:rotate(-90deg)}
+.sf-slider__btn--prev .sf-icon{transform:rotate(90deg)}
+.sf-slider__btn--next:not([disabled]):hover .sf-icon{transform:rotate(-90deg) scale(1.1)}
+.sf-slider__btn--prev:not([disabled]):hover .sf-icon{transform:rotate(90deg) scale(1.1)}
+.sf-slider__dots{display:flex}
+.sf-slider__dot{padding:10px;border:0;background:none;cursor:pointer}
+.sf-slider__dot i{display:block;width:10px;height:10px;border-radius:50%;border:1px solid color-mix(in srgb,var(--fg) 50%,transparent);transition:transform .2s ease-in-out}
+.sf-slider__dot[aria-current="true"] i{background:var(--fg);transform:scale(1.1)}
+.sf-slider__dot:not([aria-current="true"]):hover i{border-color:var(--fg);transform:scale(1.1)}
+@media (max-width:749.98px){.sf-slider__dot{padding:7px}}
+@media (prefers-reduced-motion:reduce){.sf-slider__dot i{transition:none}.sf-slider__track{scroll-behavior:auto}}`,
+js:`const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+root.querySelectorAll('.sf-slider').forEach(s=>{
+  const track=s.querySelector('.sf-slider__track'),items=[...track.children],dots=s.querySelector('.sf-slider__dots');
+  const prev=s.querySelector('.sf-slider__btn--prev'),next=s.querySelector('.sf-slider__btn--next');
+  dots.innerHTML=items.map((_,i)=>'<button class="sf-slider__dot" aria-label="Slide '+(i+1)+'"><i></i></button>').join('');
+  const step=()=>items[1].offsetLeft-items[0].offsetLeft;
+  const go=left=>track.scrollTo({left,behavior:reduce?'auto':'smooth'});
+  const update=()=>{const cur=Math.round(track.scrollLeft/step());
+    [...dots.children].forEach((d,i)=>d.setAttribute('aria-current',i===cur));
+    prev.disabled=track.scrollLeft<=1;next.disabled=track.scrollLeft+track.clientWidth>=track.scrollWidth-1};
+  prev.addEventListener('click',()=>go(track.scrollLeft-step()));
+  next.addEventListener('click',()=>go(track.scrollLeft+step()));
+  [...dots.children].forEach((d,i)=>d.addEventListener('click',()=>go(i*step())));
+  track.addEventListener('scroll',update,{passive:true});new ResizeObserver(update).observe(track);update();
+});`});
+
+C.push({id:"spinner",name:"Cart line spinner",status:"code",
+where:"component-loading-overlay.css: an 18 px SVG spinner (Dawn's). The svg turns 0 → 270° with rotator, 1.4 s linear infinite. The circle's stroke (dasharray 280) runs dash, 1.4 s ease-in-out infinite: dashoffset 280 → 75 (rotate 135°) → 280 (rotate 450°). While it shows, the line's price drops to opacity 0.5 and the remove button stops responding. On phones it sits top right, from 750 px on the left.",
+desc:"Change the quantity and the line shows a small spinner while the cart updates. The two rotations at different speeds make the arc look like it chases itself. Here the update is faked with a 1.2-second wait.",
+html:`<div class="sf-line">
+  <span class="sf-line__thumb"></span>
+  <div class="sf-line__info"><b>spot patches</b>
+    <div class="sf-qty"><button aria-label="Less">−</button><output>1</output><button aria-label="More">+</button></div></div>
+  <div class="sf-line__end">
+    <div class="sf-loading" hidden><svg class="sf-spinner" viewBox="0 0 66 66" aria-hidden="true"><circle class="sf-spinner__path" fill="none" stroke-width="6" cx="33" cy="33" r="30"/></svg><span class="sf-vh">Updating</span></div>
+    <span class="sf-line__price">$12.00</span>
+  </div>
+</div>`,
+css:`.sf-line{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;max-width:460px;padding:14px;border-radius:var(--radius);background:#fff;color:#000;border:2px solid #000}
+.sf-line__thumb{width:64px;height:64px;border-radius:16px;background:var(--sf-pink)}
+.sf-line__info b{display:block;font:900 1.15rem/1 var(--display);text-transform:lowercase;margin-bottom:8px}
+.sf-qty{display:inline-flex;align-items:center;border:2px solid #000;border-radius:var(--radius-btn)}
+.sf-qty button{width:34px;height:30px;border:0;background:none;color:inherit;font:700 1rem var(--body);cursor:pointer}
+.sf-qty output{min-width:20px;text-align:center;font:700 .9rem var(--body)}
+.sf-line__end{display:flex;align-items:center;gap:8px}
+.sf-loading{width:18px;display:flex}
+.sf-loading[hidden]{display:none}
+.sf-loading:not([hidden])+.sf-line__price{opacity:.5}
+.sf-spinner{width:18px;height:18px;animation:sf-rotator 1.4s linear infinite}
+.sf-spinner__path{stroke:currentColor;stroke-dasharray:280;stroke-dashoffset:0;transform-origin:center;animation:sf-dash 1.4s ease-in-out infinite}
+@keyframes sf-rotator{0%{transform:rotate(0)}to{transform:rotate(270deg)}}
+@keyframes sf-dash{0%{stroke-dashoffset:280}50%{stroke-dashoffset:75;transform:rotate(135deg)}to{stroke-dashoffset:280;transform:rotate(450deg)}}
+.sf-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.sf-spinner,.sf-spinner__path{animation-duration:4.2s}}`,
+js:`root.querySelectorAll('.sf-line').forEach(l=>{
+  const out=l.querySelector('output'),load=l.querySelector('.sf-loading'),price=l.querySelector('.sf-line__price');
+  l.querySelectorAll('.sf-qty button').forEach((b,i)=>b.addEventListener('click',()=>{
+    const n=Math.max(1,+out.value+(i?1:-1));if(n===+out.value)return;out.value=n;
+    load.hidden=false;clearTimeout(l._t);
+    l._t=setTimeout(()=>{load.hidden=true;price.textContent='$'+(12*n).toFixed(2)},1200);
+  }));
+});`});
+
+// how each component behaves on phones (from the theme's 750 and 990 px breakpoints)
+const MOBILE={
+"announce":"Same on every screen size: the script has no breakpoint logic and the bar keeps its 34 px height and 14 px text.",
+"header":"Phone and tablet only. The script checks window.innerWidth < 990, so from 990 px the header simply scrolls away with the page and never slides back.",
+"menu":"This is the menu under 990 px, opening full width. From 990 px the header shows its links inline, and their submenus use the dropdown fade-down.",
+"dropdown":"Header submenus only exist from 990 px, since under that the drawer takes over. The search modal and share box keep the same 0.2 s fade-down on phones.",
+"cart":"Under 750 px the bag fills the whole screen (min-w-[100vw]), with square corners and centred. The slide is still 0.6 s ease from translate(−100%).",
+"card":"No hover effect under 990 px: the whole swap-and-zoom block is inside @media (min-width: 990px), so phones and tablets always show the first image.",
+"marquee":"Under 750 px the theme shows a separate .marquee-mobile block instead of .marquee. The same scrolling keyframes apply, but the mobile block's own sizes weren't checked.",
+"confetti":"Same burst on every screen size. The confetti is fixed to the viewport, so it fills a phone screen just the same.",
+"slider":"Under 750 px the dot links get 7 px padding instead of 10 px. Whether arrows show depends on the slider's class: slider--mobile hides them from 750 px, slider--desktop hides them under 990 px.",
+"spinner":"Under 750 px the spinner sits at the top right of the line (top:0; right:0). From 750 px it sits on the left. The animation is the same."
+};
+
+// render
+const views=[];
+const list=document.getElementById('list'),toc=document.getElementById('toc'),kit=document.getElementById('kit-css');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+C.forEach(c=>{
+  kit.textContent+=c.css+'\n';
+  toc.insertAdjacentHTML('beforeend',`<a href="#${c.id}">${c.name}</a>`);
+  const src=`<!-- HTML -->\n${c.html}\n\n<style>\n${c.css}\n</style>`+(c.js?`\n\n<script>\n(root=>{\n${c.js}\n})(document);\n<\/script>`:'');
+  list.insertAdjacentHTML('beforeend',`<section class="comp" id="${c.id}">
+    <div class="comp-head"><h2>${c.name}</h2><span class="status ${c.status}">${c.status==='code'?'From code':'Partly guessed'}</span></div>
+    <p class="where">On Starface: ${c.where}</p>
+    <p class="where">On phones: ${MOBILE[c.id]}</p>
+    <p class="desc">${c.desc}</p>
+    <div class="stage">${c.html}</div>
+    <div class="tools">${c.replay?'<button class="btn" data-replay>'+(c.replayLabel||'Replay')+'</button>':''}<button class="btn" data-copy>Copy code</button></div>
+    <details class="src"><summary>Source</summary><pre><code>${esc(src)}</code></pre></details>
+  </section>`);
+  const sec=list.lastElementChild,stage=sec.querySelector('.stage');
+  views.push({c,stage,src});
+  try{ if(c.js) new Function('root',c.js)(stage); }catch(e){console.error(c.id,e)}
+  sec.querySelector('[data-replay]')?.addEventListener('click',()=>{const f=stage.querySelector('iframe.phone');f?f.contentDocument?.querySelector('.sf-pop')?.click():c.replay(stage)});
+  sec.querySelector('[data-copy]').addEventListener('click',e=>{
+    const b=e.currentTarget;
+    navigator.clipboard.writeText(src).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy code',1400)})
+      .catch(()=>{const d=sec.querySelector('details');d.open=true;getSelection().selectAllChildren(d.querySelector('code'))});
+  });
+});
+
+// Desktop / Mobile switch: mobile renders each demo in a 390px frame, so the kit's breakpoints apply
+function phoneDoc(v){
+  const theme=document.documentElement.dataset.theme;
+  return `<!doctype html><html lang="en"${theme?` data-theme="${theme}"`:''}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Space+Mono:wght@400;700&display=swap">
+<style>${document.getElementById('tokens').textContent}*{box-sizing:border-box}body{margin:0;padding:16px;background:var(--surface);color:var(--fg);font:400 .95rem/1.6 var(--body)}
+${v.c.css}</style></head><body>${v.c.html}<script>(root=>{${v.c.js||''}})(document)<\/script></body></html>`;
+}
+function setView(mode){
+  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===mode));
+  views.forEach(v=>{
+    if(mode==='mobile'){
+      if(!v.saved){v.saved=[...v.stage.childNodes];}
+      v.stage.replaceChildren();
+      const f=document.createElement('iframe');f.className='phone';f.title=v.c.name+' at phone width';
+      f.addEventListener('load',()=>{const d=f.contentDocument;if(!d)return;const fit=()=>f.style.height=d.documentElement.scrollHeight+'px';fit();new ResizeObserver(fit).observe(d.body)});
+      f.srcdoc=phoneDoc(v);v.stage.append(f);
+    }else if(v.saved){v.stage.replaceChildren(...v.saved);}
+  });
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+</script>

@@ -1,0 +1,12 @@
+.sf-dd-row{display:flex;gap:10px;flex-wrap:wrap;min-height:190px;align-items:flex-start}
+.sf-dd{position:relative}
+.sf-dd>summary{list-style:none;cursor:pointer;padding:10px 20px;border-radius:var(--radius-btn);border:2px solid var(--fg);
+  font:900 1.2rem/1 var(--display);text-transform:lowercase}
+.sf-dd>summary::-webkit-details-marker{display:none}
+.sf-dd[open]>summary{background:var(--fg);color:var(--bg)}
+.sf-dd__panel{position:absolute;left:0;top:calc(100% + 8px);z-index:3;margin:0;padding:14px 20px;list-style:none;min-width:200px;
+  background:var(--sf);color:var(--on-sf);border-radius:var(--radius);display:grid;gap:6px}
+.sf-dd__panel a{color:inherit;font:700 .95rem var(--body);text-transform:lowercase}
+.sf-dd[open]>.sf-dd__panel{animation:sf-menu-open .2s ease forwards}
+@keyframes sf-menu-open{0%{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.sf-dd[open]>.sf-dd__panel{animation:none}}

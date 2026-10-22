@@ -1,0 +1,6 @@
+.sf-announce{position:relative;overflow:hidden;min-height:34px;background:#000;color:var(--sf);border-radius:var(--radius)}
+.sf-announce__bar{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;padding:0 16px;
+  font:700 14px/1.2 var(--body);text-transform:lowercase;text-align:center;
+  transform:translateX(100%);transition:transform .3s ease-in-out}
+.sf-announce__bar:first-child{transform:translateX(0)}
+@media (prefers-reduced-motion:reduce){.sf-announce__bar{transition:none}}

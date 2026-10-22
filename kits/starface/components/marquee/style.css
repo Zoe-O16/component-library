@@ -1,0 +1,8 @@
+.sf-marquee{background:var(--sf);color:#000;border-radius:var(--radius);margin-bottom:3px}
+.sf-marquee__track{display:flex;align-items:center;height:55px;overflow:hidden;white-space:nowrap}
+.sf-marquee__content{display:flex;flex:0 0 100%;justify-content:space-around;align-items:center;animation:sf-scrolling 30s linear infinite}
+.sf-marquee__content.rpt{animation-delay:.01s}
+.sf-marquee__text{margin:0;font:900 22px var(--display);text-transform:lowercase}
+.sf-marquee span{font-size:16px}
+@keyframes sf-scrolling{0%{transform:translate(0)}to{transform:translate(-100%)}}
+@media (prefers-reduced-motion:reduce){.sf-marquee__content{animation:none}}

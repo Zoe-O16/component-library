@@ -1,0 +1,16 @@
+/* Starface kit tokens. Load before any component css. */
+:root{
+  /* light = Starface's yellow ground; dark = the site's black body */
+  --bg:#FDFF00; --fg:#000000; --surface:#ffffff; --muted:#4d4d00; --line:#000000;
+  --sf:#FDFF00; --on-sf:#000000;
+  --sf-pink:#FF00D3; --sf-blue:#00BFFA; --sf-green:#26BA28; --sf-purple:#9B74E7; --sf-red:#FF3C3A;
+  --radius:26px; --radius-btn:25px; /* --media-radius, --buttons-radius */
+  --display:"Nunito","Arial Rounded MT Bold",system-ui,sans-serif; /* site uses ABC Diatype Rounded Heavy/Black (paid) */
+  --body:"Space Mono",ui-monospace,Menlo,monospace; /* site uses GT Pressura Mono (paid) */
+  --mono:"Space Mono",ui-monospace,Menlo,monospace;
+  --dur-short:.1s; --dur-default:.2s; --dur-long:.5s; /* --duration-* in base.css */
+  /* site breakpoints (Shopify Dawn): phone < 750px, tablet 750-989, desktop 990+. Media queries can't read vars, so use the numbers. */
+  --bp-tablet:750px; --bp-desktop:990px;
+}
+@media (prefers-color-scheme:dark){:root{--bg:#000000;--fg:#ffffff;--surface:#1a1a1a;--muted:#b3b3b3;--line:#ffffff;color-scheme:dark}}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.55 var(--body)}

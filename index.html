@@ -31,7 +31,11 @@ const KITS=[
   {slug:"fc-hyena",name:"FC Hyena",source:"fchyena.nl",date:"2026-10-22",count:10,
    colours:["#A0DC00","#FFA000","#00BEE6","#DC0000","#FFE100"],
    library:"https://claude.ai/artifact/PbgDp2jeUoMUUzSyhu5oT9",
-   summary:"Boutique cinema in Amsterdam. Random colour per visit, draggable stickers, swinging menu blocks, typewriter hero."}
+   summary:"Boutique cinema in Amsterdam. Random colour per visit, draggable stickers, swinging menu blocks, typewriter hero."},
+  {slug:"starface",name:"Starface",source:"starface.world",date:"2026-10-22",count:10,
+   colours:["#FDFF00","#FF00D3","#00BFFA","#26BA28","#9B74E7"],
+   library:"https://claude.ai/artifact/7YTgq1X8VhANRXSa18Jg2X",
+   summary:"Yellow-and-black skincare shop on Shopify. Hide-on-scroll header, left-hand cart drawer, card image swap, star confetti."}
 ];
 document.getElementById('kits').innerHTML=KITS.map(k=>`<div><a class="kit" href="kits/${k.slug}/">
   <div class="chips">${k.colours.map(c=>`<i style="background:${c}"></i>`).join('')}</div>

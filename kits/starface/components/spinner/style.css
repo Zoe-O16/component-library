@@ -1,0 +1,16 @@
+.sf-line{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;max-width:460px;padding:14px;border-radius:var(--radius);background:#fff;color:#000;border:2px solid #000}
+.sf-line__thumb{width:64px;height:64px;border-radius:16px;background:var(--sf-pink)}
+.sf-line__info b{display:block;font:900 1.15rem/1 var(--display);text-transform:lowercase;margin-bottom:8px}
+.sf-qty{display:inline-flex;align-items:center;border:2px solid #000;border-radius:var(--radius-btn)}
+.sf-qty button{width:34px;height:30px;border:0;background:none;color:inherit;font:700 1rem var(--body);cursor:pointer}
+.sf-qty output{min-width:20px;text-align:center;font:700 .9rem var(--body)}
+.sf-line__end{display:flex;align-items:center;gap:8px}
+.sf-loading{width:18px;display:flex}
+.sf-loading[hidden]{display:none}
+.sf-loading:not([hidden])+.sf-line__price{opacity:.5}
+.sf-spinner{width:18px;height:18px;animation:sf-rotator 1.4s linear infinite}
+.sf-spinner__path{stroke:currentColor;stroke-dasharray:280;stroke-dashoffset:0;transform-origin:center;animation:sf-dash 1.4s ease-in-out infinite}
+@keyframes sf-rotator{0%{transform:rotate(0)}to{transform:rotate(270deg)}}
+@keyframes sf-dash{0%{stroke-dashoffset:280}50%{stroke-dashoffset:75;transform:rotate(135deg)}to{stroke-dashoffset:280;transform:rotate(450deg)}}
+.sf-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.sf-spinner,.sf-spinner__path{animation-duration:4.2s}}

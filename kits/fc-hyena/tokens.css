@@ -5,6 +5,8 @@
   --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif; /* site uses Rhode MediumCondensed (paid) */
   --body:"Instrument Sans",system-ui,sans-serif; /* site uses Aaux Pro (paid) */
   --mono:"DM Mono",ui-monospace,Menlo,monospace;
+  /* site breakpoints (Framer): phone < 810px, tablet 810-1199, desktop 1200-1499, large 1500+. Media queries can't read vars, so use the numbers. */
+  --bp-tablet:810px; --bp-desktop:1200px; --bp-large:1500px;
   --ease-hy:cubic-bezier(.44,0,0,1); --ease-out:cubic-bezier(.5,0,0,1); --spring:cubic-bezier(.34,1.56,.64,1);
 }
 @media (prefers-color-scheme:dark){:root{--bg:#000000;--fg:#ffffff;--surface:#161616;--muted:#999999;--line:#ffffff;color-scheme:dark}}

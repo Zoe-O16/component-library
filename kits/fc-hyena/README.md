@@ -11,6 +11,11 @@ Source: [fchyena.nl](https://fchyena.nl/), a Framer site. Studied 2026-10-22 fro
 - Main ease `cubic-bezier(.44,0,0,1)`, springs for anything you can touch
 - Fonts on the site: Rhode MediumCondensed and Aaux Pro (paid). The kit uses Big Shoulders Display and Instrument Sans instead.
 
+## Mobile
+- Breakpoints from the site: phone under 810 px, tablet 810 to 1199, desktop 1200 to 1499, large from 1500 px (`--bp-*` in [tokens.css](tokens.css)).
+- Most motion is the same on phones. What changes: the menu blocks swing in faster (0.8 s each) at full width, the hero headline drops to 85 px, the FAQ stacks, and hover effects (sticker grow, ticket tilt, corner fold) don't fire on touch. Smooth scroll leaves touch scrolling native.
+- Every component README has a **Mobile** line, and the overview page has a Desktop / Mobile switch that shows each demo at 390 px.
+
 ## Components
 | Component | Status | What it does |
 |---|---|---|

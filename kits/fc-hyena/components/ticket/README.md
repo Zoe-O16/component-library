@@ -4,6 +4,8 @@
 
 **On FC Hyena:** Ticket BTN / H6 links: hovering rotates the button −6° with a soft spring (bounce .2, 0.4 s)
 
+**Mobile:** Hover only. On touch screens the button doesn't tilt, because touch pointers don't trigger hover. Keyboard focus still tilts it here.
+
 Every "tickets" button and small link tilts on hover, like a ticket stub that's been knocked. The colour comes from the visit colour.
 
 ## Use it

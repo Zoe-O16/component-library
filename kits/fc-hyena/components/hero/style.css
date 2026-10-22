@@ -9,4 +9,5 @@
 .hy-type .ch{opacity:1}
 .hy-type.typing .ch{opacity:.001}
 .hy-type.typing .ch.on{opacity:1}
+@media (max-width:809.98px){.hy-hero__line{font-size:clamp(2.6rem,21vw,5.3rem)}}
 @media (prefers-reduced-motion:reduce){.hy-hero.play .hy-hero__line{animation:none}}

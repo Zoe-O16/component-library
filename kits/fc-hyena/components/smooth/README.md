@@ -4,6 +4,8 @@
 
 **On FC Hyena:** shared-lib "Smooth Scroll" (Lenis-style): the page eases toward your scroll position each frame, using value = lerp(value, target, 1 − e^(−60·lerp·dt))
 
+**Mobile:** Phones scroll natively. The site creates Lenis with only a duration setting, so syncTouch stays off and only wheels and trackpads get the smoothing.
+
 Scrolling on FC Hyena feels heavy and smooth because the page follows your wheel with a little lag. Scroll inside the box to feel it. A lerp of 0.1 is the usual default. Lower values glide longer.
 
 ## Use it

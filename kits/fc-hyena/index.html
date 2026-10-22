@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hyena Motion Kit</title>
+<title>FC Hyena Motion</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
 <style>
@@ -38,14 +38,19 @@ h1 span{background:var(--hy);color:var(--on-hy);padding:0 .08em}
 .btn:hover{background:var(--hy);color:var(--on-hy);border-color:var(--hy)}
 details.src summary{cursor:pointer;font:500 .8rem var(--mono);text-transform:uppercase;letter-spacing:.1em}
 pre{background:var(--code);color:var(--codefg);padding:16px;overflow-x:auto;font:400 .78rem/1.5 var(--mono);margin:10px 0 0;max-width:100%}
+.view{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px}
+.view .btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.view small{font:400 .8rem var(--mono);color:var(--muted)}
+.phone{display:block;width:390px;max-width:100%;margin-inline:auto;border:2px solid var(--line);background:var(--surface);height:240px}
 a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--hy);outline-offset:3px}
 </style>
 <style id="kit-css"></style>
 
 <div class="wrap">
-  <span class="where"><a href="../../" style="color:inherit">← All kits</a> · fchyena.nl · motion study</span>
-  <h1>Hyena <span>Motion</span> Kit</h1>
+  <span class="where"><a href="../../" style="color:inherit">← All kits</a> · <a href="https://github.com/Zoe-O16/component-library/tree/main/kits/fc-hyena" style="color:inherit">Code</a> · fchyena.nl · motion study</span>
+  <h1>FC Hyena <span>Motion</span></h1>
   <p class="intro">These are the animations on fchyena.nl, taken from the site's own Framer code and rebuilt from scratch in plain HTML, CSS and JS with no libraries. The durations, easing curves, delays and angles are the real values. <b>From code</b> means the effect and its numbers come straight from the site. <b>Partly guessed</b> means the effect is there, but some of its timing wasn't in the code. Reload the page and the highlight colour changes, just like on FC Hyena.</p>
+  <div class="view" role="group" aria-label="Preview size"><button class="btn" data-view="desktop" aria-pressed="true">Desktop</button><button class="btn" data-view="mobile" aria-pressed="false">Mobile · 390px</button><small>Mobile shows each demo at phone width. Touch-only changes (no hover, native scrolling) show on a real phone.</small></div>
   <nav class="toc" id="toc" aria-label="Components"></nav>
   <div id="list"></div>
 </div>
@@ -93,6 +98,7 @@ css:`.hy-hero{display:grid;gap:4px;overflow:hidden}
 .hy-type .ch{opacity:1}
 .hy-type.typing .ch{opacity:.001}
 .hy-type.typing .ch.on{opacity:1}
+@media (max-width:809.98px){.hy-hero__line{font-size:clamp(2.6rem,21vw,5.3rem)}}
 @media (prefers-reduced-motion:reduce){.hy-hero.play .hy-hero__line{animation:none}}`,
 js:`const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 root.querySelectorAll('.hy-type').forEach(p=>{
@@ -174,7 +180,7 @@ js:`root.querySelectorAll('.hy-stickerboard').forEach(b=>{
 replay:el=>{const b=el.querySelector('.hy-stickerboard');b.querySelectorAll('.hy-sticker').forEach(s=>{s.style.removeProperty('--dx');s.style.removeProperty('--dy');s._ox=s._oy=0});b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}});
 
 C.push({id:"menu",name:"Swinging menu blocks",status:"code",
-where:"Menu Final: the colour blocks (BlockCinema yellow, BlockPetitResto orange, BlockAbout…) start rotated −90° around their top-left corner and swing down to 0°, each one triggered 200 ms after the last. The highlighted block tilts −6°. Eases are (.5, 0, 0, 1) and (.44, 0, 0, .95), at 0.8 to 1 s.",
+where:"Menu Final: the colour blocks (BlockCinema yellow, BlockPetitResto orange, BlockAbout…) start rotated −90° around their top-left corner and swing down to 0°, each one triggered 200 ms after the last, over 2 s, 1.7 s and 1.3 s on ease (.5, 0, 0, 1), so they land almost together. The highlighted block tilts −6°.",
 desc:"Open the menu and the blocks swing down from the top-left corner like signs on a hinge. Hover over a block and it tilts a little.",
 html:`<div class="hy-menu-demo">
   <button class="hy-menu-btn" aria-expanded="false">menu</button>
@@ -193,7 +199,9 @@ css:`.hy-menu-demo{min-height:330px;position:relative}
   transform-origin:0 0;transform:rotate(-90deg);visibility:hidden;
   transition:transform .8s var(--ease-out),visibility 0s .8s}
 .hy-menu.open .hy-block{transform:rotate(0);visibility:visible;
-  transition:transform 1s cubic-bezier(.44,0,0,.95) calc(var(--i)*200ms),visibility 0s}
+  transition:transform var(--d,1.3s) var(--ease-out) calc(var(--i)*200ms),visibility 0s}
+.hy-block:nth-child(1){--d:2s}.hy-block:nth-child(2){--d:1.7s}
+@media (max-width:809.98px){.hy-menu{max-width:none;padding:20px 0}.hy-block{--d:.8s!important}}
 .hy-menu.open .hy-block:hover,.hy-menu.open .hy-block:focus-visible{transform:rotate(-6deg);transition-delay:0s;transition-duration:.4s}
 @media (prefers-reduced-motion:reduce){.hy-block,.hy-menu.open .hy-block{transition:none}}`,
 js:`root.querySelectorAll('.hy-menu-btn').forEach(b=>{
@@ -235,11 +243,14 @@ desc:"Scrolling on FC Hyena feels heavy and smooth because the page follows your
 html:`<div class="hy-smooth" data-lerp=".1">
   <div class="hy-smooth__inner">${Array.from({length:10},(_,i)=>'<div class="hy-smooth__row">'+['Elstar','Goudreinet','Jonagold','Boskoop','Kanzi','Santana','Notarisappel','Dabinett','Granny Smith','Kingston Black'][i]+'</div>').join('')}</div>
 </div>`,
-css:`.hy-smooth{height:260px;overflow:hidden;position:relative;background:var(--bg);touch-action:pan-x}
+css:`.hy-smooth{height:260px;overflow:hidden;position:relative;background:var(--bg)}
+.hy-smooth.native{overflow-y:auto;overscroll-behavior:contain}
 .hy-smooth__inner{will-change:transform}
 .hy-smooth__row{font:900 clamp(2rem,7vw,3.6rem)/1 var(--display);text-transform:uppercase;padding:10px 20px;border-bottom:2px solid var(--line)}
 .hy-smooth__row:nth-child(odd){color:var(--hy)}`,
 js:`root.querySelectorAll('.hy-smooth').forEach(box=>{
+  // like the site's Lenis setup (syncTouch off): touch scrolls natively, wheels get the smoothing
+  box.addEventListener('touchstart',()=>box.classList.add('native'),{passive:true,once:true});
   const inner=box.firstElementChild, lerp=parseFloat(box.dataset.lerp)||.1;
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let target=0,cur=0,last=performance.now(),run=false;
@@ -251,9 +262,6 @@ js:`root.querySelectorAll('.hy-smooth').forEach(box=>{
     run=cur!==target; if(run)requestAnimationFrame(frame)};
   const go=d=>{target=Math.max(0,Math.min(max(),target+d));if(!run){run=true;last=performance.now();requestAnimationFrame(frame)}};
   box.addEventListener('wheel',e=>{const t=Math.max(0,Math.min(max(),target+e.deltaY));if(t===target)return;e.preventDefault();go(e.deltaY)},{passive:false});
-  let ty=null;
-  box.addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
-  box.addEventListener('touchmove',e=>{if(ty===null)return;const y=e.touches[0].clientY;go((ty-y)*1.4);ty=y;e.preventDefault()},{passive:false});
 });`});
 
 C.push({id:"faq",name:"FAQ accordion",status:"code",
@@ -301,7 +309,11 @@ js:`root.querySelectorAll('.hy-tick__win').forEach(w=>{
     i=n},2200);
 });`});
 
+// how each component behaves on phones (from the site's breakpoint variants)
+const MOBILE={"colour": "Same on every screen size. The colour override has no breakpoint logic.", "hero": "Same slide-in (±40 px, 1 s, delays 2.4, 2.6 and 2.8 s) and typewriter on phones. Only the headline size changes: 220 px from 1500 px up, then 180, 160, and 85 px under 810 px.", "parallax": "No phone override. The text overlay keeps speed 110 at every breakpoint.", "stickers": "Phones keep dragging (no momentum) and the 0.9 press. On the site the hover grow and tilt don't fire on touch, because Framer's motion ignores touch pointers for hover. The kit keeps plain CSS :hover. Only the sticker positions change.", "menu": "Under 810 px the menu opens full width with 20 px padding, and each block swings in over 0.8 s on ease (.5, 0, 0, 1), still 200 ms apart (variants 4, 5, 6 instead of 1, 2, 3).", "ticket": "Hover only on the site: touch pointers don't trigger the tilt there. The kit keeps plain CSS :hover, so some phones show the tilt briefly on tap. Keyboard focus also tilts it.", "corner": "The fold grows on hover, so on the site it stays at its resting size on touch screens. The kit keeps plain CSS :hover. Partly guessed: the sticker's phone variant wasn't checked.", "smooth": "Phones scroll natively. The site creates Lenis with only a duration setting, so syncTouch stays off and only wheels and trackpads get the smoothing.", "faq": "Same 0.4 s open and close on phones. The site swaps in a \"FAQ mobile\" layout where the question sits above a full-width answer, with 20 px top padding.", "ticker": "The footer has its own phone layout, but no different ticker timing was found in the code."};
+
 // render
+const views=[];
 const list=document.getElementById('list'),toc=document.getElementById('toc'),kit=document.getElementById('kit-css');
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 C.forEach(c=>{
@@ -311,18 +323,42 @@ C.forEach(c=>{
   list.insertAdjacentHTML('beforeend',`<section class="comp" id="${c.id}">
     <div class="comp-head"><h2>${c.name}</h2><span class="status ${c.status}">${c.status==='code'?'From code':'Partly guessed'}</span></div>
     <p class="where">On FC Hyena: ${c.where}</p>
+    <p class="where">On phones: ${MOBILE[c.id]}</p>
     <p class="desc">${c.desc}</p>
     <div class="stage">${c.html}</div>
     <div class="tools">${c.replay?'<button class="btn" data-replay>'+(c.replayLabel||'Replay')+'</button>':''}<button class="btn" data-copy>Copy code</button></div>
     <details class="src"><summary>Source</summary><pre><code>${esc(src)}</code></pre></details>
   </section>`);
   const sec=list.lastElementChild,stage=sec.querySelector('.stage');
+  views.push({c,stage,src});
   try{ if(c.js) new Function('root',c.js)(stage); }catch(e){console.error(c.id,e)}
-  sec.querySelector('[data-replay]')?.addEventListener('click',()=>c.replay(stage));
+  sec.querySelector('[data-replay]')?.addEventListener('click',()=>{const f=stage.querySelector('iframe.phone');f?f.srcdoc=f.srcdoc:c.replay(stage)});
   sec.querySelector('[data-copy]').addEventListener('click',e=>{
     const b=e.currentTarget;
     navigator.clipboard.writeText(src).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy code',1400)})
       .catch(()=>{const d=sec.querySelector('details');d.open=true;getSelection().selectAllChildren(d.querySelector('code'))});
   });
 });
+
+// Desktop / Mobile switch: mobile renders each demo in a 390px frame, so the kit's breakpoints apply
+function phoneDoc(v){
+  const r=getComputedStyle(document.documentElement);
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="tokens.css"><style>:root{--hy:${r.getPropertyValue('--hy')};--on-hy:${r.getPropertyValue('--on-hy')}}body{margin:0;padding:20px;background:var(--surface)}
+${v.c.css}</style></head><body>${v.c.html}<script>(root=>{${v.c.js||''}})(document)<\/script></body></html>`;
+}
+function setView(mode){
+  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===mode));
+  views.forEach(v=>{
+    if(mode==='mobile'){
+      if(!v.saved){v.saved=[...v.stage.childNodes];}
+      v.stage.replaceChildren();
+      const f=document.createElement('iframe');f.className='phone';f.title=v.c.name+' at phone width';
+      f.addEventListener('load',()=>{const d=f.contentDocument;if(!d)return;const fit=()=>f.style.height=d.documentElement.scrollHeight+'px';fit();new ResizeObserver(fit).observe(d.body)});
+      f.srcdoc=phoneDoc(v);v.stage.append(f);
+    }else if(v.saved){v.stage.replaceChildren(...v.saved);}
+  });
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 </script>

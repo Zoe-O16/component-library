@@ -5,7 +5,7 @@ Motion kits studied from websites I love and rebuilt as drop-in HTML, CSS and JS
 ## Kits
 | Kit | Source | Components | Library page |
 |---|---|---|---|
-| [FC Hyena](kits/fc-hyena/) | fchyena.nl | 10 | [FC Hyena Motion](https://claude.ai/artifact/U8Bx86aAQqnx89BgxNYeHS) |
+| [FC Hyena](kits/fc-hyena/) | fchyena.nl | 10 | [FC Hyena Motion](https://claude.ai/artifact/PbgDp2jeUoMUUzSyhu5oT9) |
 
 ## Layout
 ```
@@ -17,7 +17,7 @@ kits/<slug>/components/<id>/  index.html (demo), style.css, script.js, README.md
 ```
 
 ## Adding a kit
-Every site gets its own kit folder and its own library page (a Claude Design System artifact named "<Site> Motion").
+Every site gets its own kit folder and its own library page (a plain HTML artifact in Claude named "<Site> Motion": the kit overview page, published as is).
 1. Make `kits/<slug>/` with the same layout.
 2. Publish the kit's own "<Site> Motion" library page.
 3. Add an entry to `KITS` in `index.html` (with its `library` link) and a row to the table above.

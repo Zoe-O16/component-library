@@ -4,6 +4,8 @@
 
 **On FC Hyena:** Sticker component on Specials: a square card with a triangular corner mask (a 353×353 SVG triangle) in the brand colour. Its transition is 0.4 s on ease (.44, 0, .23, .98). How far the fold grows on hover is my guess.
 
+**Mobile:** The fold grows on hover, so on the site it stays at its resting size on touch screens. The kit keeps plain CSS :hover. Partly guessed: the sticker's phone variant wasn't checked.
+
 The specials carry a little folded corner. On hover the fold opens a bit wider, as if you were about to peel it back.
 
 ## Use it

@@ -18,21 +18,24 @@ h1{font:900 clamp(3.4rem,11vw,7.5rem)/.88 var(--display);text-transform:uppercas
 .chips{display:flex;gap:6px}.chips i{width:22px;height:22px;border-radius:50%;display:block}
 .meta{font:500 .78rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .kit p{margin:0}
+.lib{font:500 .8rem var(--mono);color:inherit;margin-top:-8px}
+.grid>div{display:grid;gap:12px}
 </style></head><body><div class="wrap">
 <h1>Component<br>Library</h1>
 <p class="lead">Motion kits studied from websites I love and rebuilt as drop-in HTML, CSS and JS. Each kit has an overview page with live demos, plus one folder per component.</p>
 <div class="grid" id="kits"></div>
 </div>
 <script>
-// Add a kit: put it in kits/<slug>/ and add an entry here.
+// Add a kit: put it in kits/<slug>/, publish its own "<Site> Motion" library page, and add an entry here.
 const KITS=[
   {slug:"fc-hyena",name:"FC Hyena",source:"fchyena.nl",date:"2026-10-22",count:10,
    colours:["#A0DC00","#FFA000","#00BEE6","#DC0000","#FFE100"],
+   library:"https://claude.ai/artifact/U8Bx86aAQqnx89BgxNYeHS",
    summary:"Boutique cinema in Amsterdam. Random colour per visit, draggable stickers, swinging menu blocks, typewriter hero."}
 ];
-document.getElementById('kits').innerHTML=KITS.map(k=>`<a class="kit" href="kits/${k.slug}/">
+document.getElementById('kits').innerHTML=KITS.map(k=>`<div><a class="kit" href="kits/${k.slug}/">
   <div class="chips">${k.colours.map(c=>`<i style="background:${c}"></i>`).join('')}</div>
   <h2>${k.name}</h2><p>${k.summary}</p>
-  <div class="meta"><span>${k.source}</span><span>${k.count} components · ${k.date}</span></div></a>`).join('');
+  <div class="meta"><span>${k.source}</span><span>${k.count} components · ${k.date}</span></div></a>${k.library?`<a class="lib" href="${k.library}">${k.name} Motion library →</a>`:''}</div>`).join('');
 </script>
 </body></html>

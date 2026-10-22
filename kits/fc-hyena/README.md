@@ -4,6 +4,7 @@ Source: [fchyena.nl](https://fchyena.nl/), a Framer site. Studied 2026-10-22 fro
 
 - **Overview page:** [index.html](index.html), the live gallery with copy buttons
 - **Tokens:** [tokens.css](tokens.css)
+- **Library page:** [FC Hyena Motion](https://claude.ai/artifact/U8Bx86aAQqnx89BgxNYeHS), with live previews and tokens in Claude
 
 ## Signature
 - One random brand colour per visit: `#A0DC00` `#FFA000` `#00BEE6` `#DC0000` `#FFE100`, on a black and white base
